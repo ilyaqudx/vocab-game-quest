@@ -72,6 +72,36 @@ const stampOverlay = document.getElementById('stamp-overlay');
 const btnHongenNextWord = document.getElementById('btn-hongen-next-word');
 const btnViewAlbum = document.getElementById('btn-view-album');
 
+// --- Space Defender DOM ---
+const spaceCanvas = document.getElementById('space-canvas');
+const defenderScore = document.getElementById('defender-score');
+const defenderCombo = document.getElementById('defender-combo');
+const defenderShields = document.getElementById('defender-shields');
+const spaceInput = document.getElementById('space-input');
+const btnStartDefender = document.getElementById('btn-start-defender');
+
+// --- Match Blitz DOM ---
+const blitzScore = document.getElementById('blitz-score');
+const blitzTimer = document.getElementById('blitz-timer');
+const blitzCombo = document.getElementById('blitz-combo');
+const blitzGrid = document.getElementById('blitz-grid');
+const btnStartBlitz = document.getElementById('btn-start-blitz');
+
+// --- Context Detective DOM ---
+const detectiveSentence = document.getElementById('detective-sentence');
+const detectiveHintPos = document.getElementById('detective-hint-pos');
+const detectiveHintTrans = document.getElementById('detective-hint-trans');
+const detectiveOptions = document.getElementById('detective-options');
+const detectiveExplainBox = document.getElementById('detective-explain-box');
+const btnNextQuestion = document.getElementById('btn-next-question');
+const detectiveScore = document.getElementById('detective-score');
+const detectiveStreak = document.getElementById('detective-streak');
+
+// --- Notebook DOM ---
+const notebookList = document.getElementById('notebook-list');
+const notebookCount = document.getElementById('notebook-count');
+const btnClearNotebook = document.getElementById('btn-clear-notebook');
+
 // Current State
 let currentCategory = 'all';
 let currentMode = 'hongen'; // 'hongen' | 'defender' | 'blitz' | 'detective' | 'notebook'

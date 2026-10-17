@@ -10,6 +10,128 @@ export const CATEGORIES = {
 };
 
 export const VOCAB_DATABASE = [
+  // --- 洪恩经典情境故事教学核心词 (Foundational Story Scenarios) ---
+  {
+    word: "BUS",
+    phonetic: "/bʌs/",
+    pos: "n.",
+    trans: "公共汽车；公交车",
+    example: "The yellow school bus stops to let the students get on.",
+    transEx: "黄色的校车停下来让学生们上车。",
+    roots: "缩写自拉丁语 omnibus (意为'为了所有人') -> 大家的公共汽车",
+    synonyms: ["COACH", "VEHICLE", "TRANSIT"],
+    category: "all",
+    scenario: {
+      type: "bus",
+      title: "🚏 站台等公交车",
+      intro: "早晨阳光明媚，小明背着小书包站在公交站台等车去上学...",
+      climax: "嘀嘀！远处一辆黄色双层大公交车减速开进站台啦！",
+      actionPrompt: "👆 快点击车门，帮小明刷卡上车！",
+      afterAction: "小明踏上台阶上车坐稳，公交车关门启动开往学校！",
+      voiceNarrative: "公交车来啦！坐公交车去上学！BUS，公交车！"
+    }
+  },
+  {
+    word: "CAT",
+    phonetic: "/kæt/",
+    pos: "n.",
+    trans: "猫；猫咪",
+    example: "The playful cat pounces on the rolling ball of yarn.",
+    transEx: "活泼的小猫扑向滚动的毛线球。",
+    roots: "古英语 catt，源自晚期拉丁语 cattus",
+    synonyms: ["KITTEN", "FELINE"],
+    category: "all",
+    scenario: {
+      type: "cat",
+      title: "🧶 小猫抓毛线球",
+      intro: "暖洋洋的地毯上，一只毛茸茸的小猫咪正蜷着尾巴打瞌睡...",
+      climax: "骨碌碌！一个彩色毛线球从柜子下滚了出来！小猫耳朵竖起来啦！",
+      actionPrompt: "👆 快点击毛线球，让小猫抓球玩耍！",
+      afterAction: "小猫喵呜一声轻盈扑了上去，抱着毛线球开心地在地上打滚！",
+      voiceNarrative: "小猫咪扑过来啦！喵呜！CAT，猫咪！"
+    }
+  },
+  {
+    word: "APPLE",
+    phonetic: "/ˈæpl/",
+    pos: "n.",
+    trans: "苹果",
+    example: "An apple a day keeps the doctor away.",
+    transEx: "一天一苹果，医生远离我。",
+    roots: "古英语 æppel (苹果及果实通用名)",
+    synonyms: ["FRUIT"],
+    category: "all",
+    scenario: {
+      type: "apple",
+      title: "🍎 果园摘红苹果",
+      intro: "秋天的果园硕果累累，树枝上挂满了红彤彤沉甸甸的大苹果...",
+      climax: "树下跑来一只小刺猬，抬起头眼巴巴地看着大苹果咽口水！",
+      actionPrompt: "👆 点击树上的红苹果，帮小刺猬采摘！",
+      afterAction: "啪嗒！熟透的大苹果落进篮子里，小刺猬开心地咬了一大口超甜！",
+      voiceNarrative: "大苹果熟啦！又香又甜！APPLE，苹果！"
+    }
+  },
+  {
+    word: "ROCKET",
+    phonetic: "/ˈrɒkɪt/",
+    pos: "n.",
+    trans: "火箭；火箭发动机",
+    example: "The powerful rocket launches into outer space.",
+    transEx: "强大的火箭轰鸣着升入太空深处。",
+    roots: "意大利语 rocchetto (卷线轴) -> 因圆筒喷射外形而得名",
+    synonyms: ["SPACECRAFT", "LAUNCHER"],
+    category: "all",
+    scenario: {
+      type: "rocket",
+      title: "🚀 太空火箭点火升空",
+      intro: "星际发射台已准备就绪，倒计时启动：3... 2... 1...",
+      climax: "巨大的固定支架向两侧展开，火箭尾部喷吐出耀眼的烈焰！",
+      actionPrompt: "👆 点击红色点火按钮，发射火箭！",
+      afterAction: "轰！火箭如离弦之箭冲破厚重云层，飞向无垠的浩瀚星空！",
+      voiceNarrative: "火箭点火升空！飞向太空！ROCKET，火箭！"
+    }
+  },
+  {
+    word: "BOOK",
+    phonetic: "/bʊk/",
+    pos: "n.",
+    trans: "书；书籍；课本",
+    example: "She opened the magical book and entered a world of knowledge.",
+    transEx: "她翻开这本神奇的书，步入了知识与奇迹的世界。",
+    roots: "日耳曼古语 *bōks (古人在山毛榉木片上刻字记事)",
+    synonyms: ["VOLUME", "TOME"],
+    category: "all",
+    scenario: {
+      type: "book",
+      title: "📖 翻开魔法之书",
+      intro: "古老神秘的书桌上，静静沉睡着一本镀金封面的奇妙大书...",
+      climax: "书页边缘泛起温润的蓝光，里面的立体插画就要跳出来了！",
+      actionPrompt: "👆 点击翻开书本封面，探索奇妙知识！",
+      afterAction: "哗啦啦！书页轻轻翻开，一座发光的立体魔法城堡从书中升起！",
+      voiceNarrative: "翻开神奇的书本！探索大千世界！BOOK，书本！"
+    }
+  },
+  {
+    word: "RAIN",
+    phonetic: "/reɪn/",
+    pos: "n./v.",
+    trans: "雨；下雨",
+    example: "Spring rain nourishes the thirsty green sprouts.",
+    transEx: "春雨淅淅沥沥，滋润着原野上干渴的绿色幼苗。",
+    roots: "原始印欧语 *reg- (水流/湿润) -> 天空降水",
+    synonyms: ["SHOWER", "DOWNPOUR"],
+    category: "all",
+    scenario: {
+      type: "rain",
+      title: "🌧️ 淅淅沥沥下春雨",
+      intro: "天空渐渐聚起灰蓝色的云朵，起风了，小花小草仰着脸期盼着...",
+      climax: "滴答，滴答！清脆的雨点轻快地落在大地上！",
+      actionPrompt: "👆 点击天空小雨滴，让雨水洒向大地！",
+      afterAction: "细雨滋润万物，彩虹挂上天空，一朵朵小花绽放出美丽的笑脸！",
+      voiceNarrative: "下雨啦！雨滴滋润万物！RAIN，下雨！"
+    }
+  },
+
   // --- CET-4 大学英语四级核心 ---
   {
     word: "ABANDON",
@@ -20,7 +142,16 @@ export const VOCAB_DATABASE = [
     transEx: "船长在飓风中拒绝弃船。",
     roots: "a- (否定) + bandon (控制/下令) -> 脱离控制 -> 放弃",
     synonyms: ["DESERT", "DISCARD", "RELINQUISH"],
-    category: "cet4"
+    category: "cet4",
+    scenario: {
+      type: "abandon",
+      title: "🌊 惊涛骇浪弃船避险",
+      intro: "大海上暴风骤雨狂风怒吼，一艘受损的小木船在风浪中剧烈摇晃...",
+      climax: "浪越来越高！船舱进水了，必须立即放下救生艇弃船脱险！",
+      actionPrompt: "👆 点击救生艇，放下皮筏转移到安全海域！",
+      afterAction: "船员们登上救生艇，安全避开礁石，驶向远方亮着温暖灯光的灯塔！",
+      voiceNarrative: "紧急弃船避险！脱离危险！ABANDON，放弃！"
+    }
   },
   {
     word: "ACCOMPLISH",
@@ -31,7 +162,16 @@ export const VOCAB_DATABASE = [
     transEx: "只要有毅力，你能实现任何宏伟的目标。",
     roots: "ac- (加强) + compl- (充满/完成) -> 彻底圆满",
     synonyms: ["ACHIEVE", "FULFILL", "EXECUTE"],
-    category: "cet4"
+    category: "cet4",
+    scenario: {
+      type: "accomplish",
+      title: "🏔️ 勇攀高峰胜利登顶",
+      intro: "狂风呼啸的雪山之巅，勇敢的探险队员克服艰难险阻攀登到最后一步...",
+      climax: "眼前就是云海茫茫的珠峰最高峰！梦想就要成真啦！",
+      actionPrompt: "👆 点击金色的胜利旗帜，将它插上峰顶！",
+      afterAction: "金色的旗帜在最高峰迎风猎猎招展，绚丽的礼花在雪峰之上璀璨盛开！",
+      voiceNarrative: "成功登顶！实现宏伟目标！ACCOMPLISH，完成！"
+    }
   },
   {
     word: "ACCURATE",

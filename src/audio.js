@@ -46,17 +46,58 @@ class AudioManager {
   // --- Pronunciation via Web Speech API ---
   speak(word, rate = 0.92) {
     if (this.muted) return;
-    if (!('speechSynthesis' in window)) return;
+    if (typeof window === 'undefined' || !('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') return;
 
-    window.speechSynthesis.cancel(); // Cancel any ongoing speech
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = this.voiceLang;
-    utterance.rate = rate;
-    utterance.pitch = 1.0;
-    if (this.selectedVoice) {
-      utterance.voice = this.selectedVoice;
+    try {
+      window.speechSynthesis.cancel(); // Cancel any ongoing speech
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = this.voiceLang;
+      utterance.rate = rate;
+      utterance.pitch = 1.0;
+      if (this.selectedVoice) {
+        utterance.voice = this.selectedVoice;
+      }
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {}
+  }
+
+  speakChinese(text, onEnd) {
+    if (this.muted) {
+      if (onEnd) onEnd();
+      return;
     }
-    window.speechSynthesis.speak(utterance);
+    if (typeof window === 'undefined' || !('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+      if (onEnd) onEnd();
+      return;
+    }
+
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 1.0;
+      utterance.pitch = 1.05;
+      if (onEnd) {
+        utterance.onend = onEnd;
+        utterance.onerror = onEnd;
+      }
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      if (onEnd) onEnd();
+    }
+  }
+
+  narrateStory(chineseText, englishWord, callback) {
+    if (this.muted) {
+      if (callback) callback();
+      return;
+    }
+    this.speakChinese(chineseText, () => {
+      setTimeout(() => {
+        this.speak(englishWord);
+        if (callback) callback();
+      }, 350);
+    });
   }
 
   speakSlow(word) {
@@ -65,6 +106,122 @@ class AudioManager {
 
   speakPhonics(sound) {
     this.speak(sound, 0.75);
+  }
+
+  // --- Story Theater SFX ---
+  playHonk() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    [0, 0.12].forEach((offset) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(420, t + offset);
+      osc.frequency.setValueAtTime(440, t + offset + 0.04);
+
+      gain.gain.setValueAtTime(0.2, t + offset);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.09);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(t + offset);
+      osc.stop(t + offset + 0.09);
+    });
+  }
+
+  playMeow() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(450, t);
+    osc.frequency.exponentialRampToValueAtTime(800, t + 0.18);
+    osc.frequency.exponentialRampToValueAtTime(520, t + 0.4);
+
+    gain.gain.setValueAtTime(0.25, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.4);
+  }
+
+  playCrunch() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    [260, 180, 120].forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const st = t + idx * 0.05;
+
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, st);
+      gain.gain.setValueAtTime(0.2, st);
+      gain.gain.exponentialRampToValueAtTime(0.001, st + 0.04);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(st);
+      osc.stop(st + 0.04);
+    });
+  }
+
+  playRocketWhoosh() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(100, t);
+    osc.frequency.exponentialRampToValueAtTime(850, t + 0.5);
+
+    gain.gain.setValueAtTime(0.3, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.5);
+  }
+
+  playPageFlip() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    [500, 700, 900].forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const st = t + idx * 0.04;
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, st);
+      gain.gain.setValueAtTime(0.15, st);
+      gain.gain.exponentialRampToValueAtTime(0.001, st + 0.03);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(st);
+      osc.stop(st + 0.03);
+    });
   }
 
   // --- Web Audio SFX ---

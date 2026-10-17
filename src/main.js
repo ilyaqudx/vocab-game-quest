@@ -1,5 +1,6 @@
 import './style.css';
 import { HongEnStudioEngine } from './engine/hongen-studio.js';
+import { storyTheater } from './engine/story-theater.js';
 import { SpaceDefenderEngine } from './engine/space-defender.js';
 import { MatchBlitzEngine } from './engine/match-blitz.js';
 import { ContextDetectiveEngine } from './engine/context-detective.js';
@@ -35,16 +36,20 @@ const stage2 = document.getElementById('hongen-stage-2');
 const stage3 = document.getElementById('hongen-stage-3');
 const stage4 = document.getElementById('hongen-stage-4');
 
-// Step 1
-const sceneBox = document.getElementById('hongen-scene-box');
-const sceneIcon = document.getElementById('scene-icon');
-const sceneTitleBadge = document.getElementById('scene-title-badge');
-const morphDisplay = document.getElementById('hongen-morph-display');
-const wordTitle = document.getElementById('hongen-word-title');
-const phoneticBadge = document.getElementById('hongen-phonetic');
-const transPill = document.getElementById('hongen-trans');
-const exampleText = document.getElementById('hongen-example');
-const btnMorph = document.getElementById('btn-hongen-morph');
+// Quick Scenario Picker
+const pickerPills = document.querySelectorAll('.scene-quick-pill');
+const btnRandomWord = document.getElementById('btn-random-word');
+
+// Step 1: Story Theater Cinema DOM
+const storyTitle = document.getElementById('story-title');
+const storySubtitle = document.getElementById('story-subtitle');
+const storyStageInner = document.getElementById('story-stage-inner');
+const storyMorphCard = document.getElementById('story-morph-card');
+const storyWordText = document.getElementById('story-word-text');
+const storyPhoneticText = document.getElementById('story-phonetic-text');
+const storyTransText = document.getElementById('story-trans-text');
+const storyExampleText = document.getElementById('story-example-text');
+const btnReplayStory = document.getElementById('btn-replay-story');
 const btnGotoStep2 = document.getElementById('btn-goto-step-2');
 
 // Step 2
@@ -253,43 +258,78 @@ hongenSteps.forEach(btn => {
   });
 });
 
-// --- Step 1: 玩 · 场景发现与具象演变 ---
+// --- Step 1: 玩 · 情境微剧场与字形演变 ---
 function renderHongenStep1() {
   const word = hongenEngine.currentWord;
-  const theme = hongenEngine.getWordTheme();
+  const scenario = hongenEngine.getScenario();
 
-  sceneBox.style.background = theme.bgGradient;
-  sceneIcon.textContent = theme.item;
-  sceneTitleBadge.textContent = theme.sceneTitle;
+  // Sync Quick Picker Active State
+  pickerPills.forEach(pill => {
+    if (pill.dataset.word && pill.dataset.word.toUpperCase() === word.word.toUpperCase()) {
+      pill.classList.add('active');
+    } else {
+      pill.classList.remove('active');
+    }
+  });
 
-  wordTitle.textContent = word.word;
-  phoneticBadge.textContent = word.phonetic;
-  transPill.textContent = word.trans;
-  exampleText.textContent = word.example ? `"${word.example}"` : '';
+  // Story Header Titles
+  storyTitle.textContent = scenario.title;
+  storySubtitle.textContent = scenario.intro;
 
-  morphDisplay.hidden = true;
-  btnMorph.hidden = false;
+  // Reset morph card & next button
+  storyMorphCard.hidden = true;
   btnGotoStep2.hidden = true;
+
+  // Render Interactive Theater Scene
+  storyTheater.render(storyStageInner, word, () => {
+    onStoryInteractionComplete(scenario);
+  });
+
+  // Speak introductory situational narrative
+  audio.speakChinese(scenario.intro);
 }
 
-function triggerMorph() {
-  sceneIcon.classList.remove('bounce');
-  void sceneIcon.offsetWidth; // trigger reflow
-  sceneIcon.classList.add('bounce');
-  audio.playBoing();
+function onStoryInteractionComplete(scenario) {
+  const word = hongenEngine.currentWord;
 
-  setTimeout(() => {
-    morphDisplay.hidden = false;
-    btnMorph.hidden = true;
-    btnGotoStep2.hidden = false;
-    audio.speak(hongenEngine.currentWord.word);
-    questManager.addXP(10);
-    updateLevelDisplay();
-  }, 250);
+  // Update subtitle to after-action story outcome
+  storySubtitle.textContent = scenario.afterAction;
+
+  // Reveal the morph card
+  storyWordText.textContent = word.word;
+  storyPhoneticText.textContent = word.phonetic;
+  storyTransText.textContent = word.trans;
+  storyExampleText.textContent = word.example ? `"${word.example}"` : '';
+  storyMorphCard.hidden = false;
+
+  // Play bilingual voiceover: Chinese exclamation + English pronunciation
+  audio.narrateStory(scenario.voiceNarrative || scenario.afterAction, word.word);
+
+  questManager.addXP(15);
+  updateLevelDisplay();
+  btnGotoStep2.hidden = false;
 }
 
-sceneBox.addEventListener('click', triggerMorph);
-btnMorph.addEventListener('click', triggerMorph);
+btnReplayStory.addEventListener('click', () => {
+  renderHongenStep1();
+});
+
+// Scenario Quick Picker listeners
+pickerPills.forEach(pill => {
+  if (pill.id === 'btn-random-word') return;
+  pill.addEventListener('click', () => {
+    hongenEngine.nextWord(pill.dataset.word);
+    renderHongenStep(1);
+  });
+});
+
+if (btnRandomWord) {
+  btnRandomWord.addEventListener('click', () => {
+    hongenEngine.nextWord();
+    renderHongenStep(1);
+  });
+}
+
 btnGotoStep2.addEventListener('click', () => renderHongenStep(2));
 
 // --- Step 2: 读 · 自然拼读拆解与语音跟读 ---

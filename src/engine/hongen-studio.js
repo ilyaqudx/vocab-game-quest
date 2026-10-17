@@ -77,13 +77,27 @@ export class HongEnStudioEngine {
   }
 
   nextWord(specificWord = null) {
-    if (specificWord) {
+    if (typeof specificWord === 'string') {
+      const found = this.wordPool.find(w => w.word.toUpperCase() === specificWord.toUpperCase()) ||
+                    getWordPool('all').find(w => w.word.toUpperCase() === specificWord.toUpperCase());
+      if (found) {
+        this.currentWord = found;
+      }
+    } else if (specificWord && typeof specificWord === 'object') {
       this.currentWord = specificWord;
     } else {
-      // Prioritize unmastered words if possible
-      const unmastered = this.wordPool.filter(w => !this.isWordMastered(w.word));
-      const source = unmastered.length > 0 ? unmastered : this.wordPool;
-      this.currentWord = source[Math.floor(Math.random() * source.length)];
+      // On initial launch in 'all' category, showcase BUS!
+      if (!this.currentWord && this.category === 'all') {
+        const busWord = this.wordPool.find(w => w.word === 'BUS');
+        if (busWord) this.currentWord = busWord;
+      }
+
+      if (!this.currentWord) {
+        // Prioritize unmastered words if possible
+        const unmastered = this.wordPool.filter(w => !this.isWordMastered(w.word));
+        const source = unmastered.length > 0 ? unmastered : this.wordPool;
+        this.currentWord = source[Math.floor(Math.random() * source.length)];
+      }
     }
 
     this.currentStep = 1;
@@ -91,6 +105,49 @@ export class HongEnStudioEngine {
     this.petState = 'idle';
     this.setupPuzzle();
     this.setupQuiz();
+  }
+
+  getScenario() {
+    if (this.currentWord?.scenario) {
+      return this.currentWord.scenario;
+    }
+
+    const w = (this.currentWord?.word || '').toUpperCase();
+    const pos = this.currentWord?.pos || '';
+    const trans = this.currentWord?.trans || '';
+
+    // Smart heuristic for any word
+    if (pos.includes('v.')) {
+      return {
+        type: 'action',
+        title: `⚡ 魔法行动：${trans}`,
+        intro: `小探险家在魔法森林中，准备行动施展【${trans}】...`,
+        climax: `魔法能量在指尖汇聚，准备行动啦！`,
+        actionPrompt: `👆 点击魔法水晶，触发【${w}】！`,
+        afterAction: `一道炫目金光划过，魔法成功施展！`,
+        voiceNarrative: `准备行动！${trans}！${w}！`
+      };
+    } else if (pos.includes('adj.')) {
+      return {
+        type: 'attribute',
+        title: `✨ 神奇特质：${trans}`,
+        intro: `探险队发现了一件奇异的宝物，它展现出【${trans}】的独特光彩...`,
+        climax: `宝物释放出神秘的光芒，照亮了整个暗夜！`,
+        actionPrompt: `👆 点击发光宝物，感受它的特质！`,
+        afterAction: `宝物发出清脆悦耳的共鸣，能量充盈全身！`,
+        voiceNarrative: `神奇特质！${trans}！${w}！`
+      };
+    } else {
+      return {
+        type: 'discovery',
+        title: `📦 奇妙探索：${trans}`,
+        intro: `在神秘宝箱里，静静沉睡着与【${trans}】相关的神奇之物...`,
+        climax: `宝箱锁扣咔哒一声弹开，里面的秘密就要揭晓了！`,
+        actionPrompt: `👆 点击打开宝箱，探索【${w}】！`,
+        afterAction: `彩带烟花从宝箱中喷涌而出，宝物华丽登场！`,
+        voiceNarrative: `揭开秘密！${trans}！${w}！`
+      };
+    }
   }
 
   // --- Step 1: Visual Theme & Scene Generation ---

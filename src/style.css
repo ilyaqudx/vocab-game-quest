@@ -999,7 +999,7 @@ body {
 .theater-viewport {
   width: 100%;
   max-width: 540px;
-  height: 260px;
+  height: 270px;
   position: relative;
   overflow: hidden;
   border-radius: 16px;
@@ -1023,7 +1023,134 @@ body {
   user-select: none;
 }
 
-/* --- SCENE: BUS STYLES --- */
+/* ==================================================
+   UNIVERSAL NON-BLOCKING TOP HUD PROMPT BANNER
+   ================================================== */
+.sc-prompt-box {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-26px);
+  opacity: 0;
+  pointer-events: none !important; /* CRITICAL: Never block clicks to interactive objects/buttons below! */
+  background: rgba(15, 23, 42, 0.94);
+  border: 1.5px solid #facc15;
+  border-radius: 20px;
+  padding: 6px 16px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 25;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  transition: all 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.2);
+}
+
+.sc-prompt-box.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.prompt-icon {
+  font-size: 1rem;
+  animation: promptIconBounce 1s infinite alternate;
+}
+
+@keyframes promptIconBounce {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.25); }
+}
+
+.prompt-text b {
+  color: #facc15;
+}
+
+/* Floating Interactive Cues & Radar Beacons */
+.door-floating-cue,
+.yarn-floating-cue,
+.apple-floating-cue,
+.book-floating-cue,
+.cloud-floating-cue,
+.boat-floating-cue,
+.flag-floating-cue,
+.chest-floating-cue {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.85), 0 4px 8px rgba(0,0,0,0.5);
+  pointer-events: none;
+  animation: floatCueBounce 1.2s ease-in-out infinite alternate;
+  z-index: 20;
+}
+
+@keyframes floatCueBounce {
+  0% { transform: translateX(-50%) translateY(0); }
+  100% { transform: translateX(-50%) translateY(-6px); box-shadow: 0 0 20px rgba(239, 68, 68, 1), 0 6px 12px rgba(0,0,0,0.6); }
+}
+
+.cue-pulse-radar {
+  width: 6px;
+  height: 6px;
+  background: #fde047;
+  border-radius: 50%;
+  animation: radarBlink 0.8s infinite;
+}
+
+@keyframes radarBlink {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.cue-bounce-arrow {
+  font-size: 0.72rem;
+  animation: arrowDown 0.6s infinite alternate;
+}
+
+@keyframes arrowDown {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(3px); }
+}
+
+/* Pulsing Ripple Rings */
+.door-beacon-ring,
+.yarn-beacon-ring,
+.apple-beacon-ring,
+.book-beacon-ring,
+.cloud-beacon-ring,
+.boat-beacon-ring,
+.flag-beacon-ring,
+.chest-beacon-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 12px;
+  border: 2px solid #facc15;
+  pointer-events: none;
+  animation: beaconRipple 1.4s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+@keyframes beaconRipple {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+/* ==================================================
+   SCENE 1: BUS (公交车与可爱小男孩全景)
+   ================================================== */
 .scene-bus {
   background: linear-gradient(to bottom, #38bdf8 0%, #93c5fd 60%, #cbd5e1 100%);
 }
@@ -1102,7 +1229,7 @@ body {
 .sc-bus-stop-sign {
   position: absolute;
   bottom: 28%;
-  left: 36px;
+  left: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1126,22 +1253,28 @@ body {
   background: #64748b;
 }
 
+/* School Boy Character */
 .sc-character.boy {
   position: absolute;
-  bottom: 30%;
-  left: 78px;
+  bottom: 23%;
+  left: 65px;
   z-index: 6;
-  font-size: 2.2rem;
-  line-height: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  transition: transform 0.4s ease, opacity 0.3s;
-  animation: boyBreathe 2s ease-in-out infinite;
+  transition: transform 0.5s ease-in-out, opacity 0.3s;
+  animation: boyIdleBreath 2.2s ease-in-out infinite;
 }
 
-@keyframes boyBreathe {
+@keyframes boyIdleBreath {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+  50% { transform: translateY(-4px); }
+}
+
+.boy-svg-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .char-bubble {
@@ -1159,42 +1292,63 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
+.boy-boarding-walk {
+  animation: boyWalkToBus 0.55s ease-in-out forwards;
+}
+
+@keyframes boyWalkToBus {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  40% { transform: translate(45px, -10px) scale(0.9) rotate(4deg); opacity: 0.9; }
+  80% { transform: translate(85px, -15px) scale(0.7) rotate(0deg); opacity: 0.7; }
+  100% { transform: translate(110px, -20px) scale(0.5); opacity: 0; }
+}
+
+/* Yellow School Bus */
 .sc-bus {
   position: absolute;
-  bottom: 6px;
-  right: -260px;
-  width: 240px;
-  height: 98px;
+  bottom: 8px;
+  right: -270px;
+  width: 250px;
+  height: 104px;
   z-index: 10;
   transition: transform 1.2s cubic-bezier(0.18, 0.89, 0.32, 1);
-  cursor: pointer;
 }
 
 .sc-bus.bus-arrived {
-  transform: translateX(-160px);
+  transform: translateX(-165px);
 }
 
 .sc-bus.bus-depart {
-  transform: translateX(-540px);
-  transition: transform 0.9s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  transform: translateX(-560px);
+  transition: transform 0.95s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 
 .bus-body {
   width: 100%;
-  height: 78px;
+  height: 84px;
   background: linear-gradient(to bottom, #fde047 0%, #eab308 75%, #ca8a04 100%);
-  border-radius: 16px 22px 6px 8px;
+  border-radius: 16px 24px 8px 10px;
   border: 3px solid #a16207;
   position: relative;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.6);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+}
+
+.bus-roof-curve {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: #fef08a;
+  border-radius: 14px 22px 0 0;
 }
 
 .bus-windows {
   position: absolute;
-  top: 10px;
+  top: 12px;
   left: 10px;
   right: 10px;
-  height: 28px;
+  height: 30px;
   display: flex;
   gap: 6px;
 }
@@ -1208,75 +1362,94 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 0.95rem;
+  overflow: hidden;
 }
 
 .bus-stripe {
   position: absolute;
-  bottom: 12px;
+  bottom: 14px;
   left: 0;
   width: 100%;
-  height: 6px;
+  height: 7px;
   background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.bus-door {
+.bus-label-text {
+  font-size: 0.42rem;
+  font-weight: 900;
+  color: #facc15;
+  letter-spacing: 1px;
+}
+
+/* HIGH VISIBILITY BUS DOOR */
+.bus-door-interactive {
   position: absolute;
   bottom: 0;
   left: 42px;
-  width: 36px;
-  height: 44px;
-  background: #0284c7;
-  border: 2px solid #0369a1;
+  width: 44px;
+  height: 52px;
+  background: rgba(2, 132, 199, 0.2);
+  border: 2.5px solid #facc15;
   border-bottom: none;
+  border-radius: 4px 4px 0 0;
   cursor: pointer;
-  display: flex;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.6), inset 0 0 8px rgba(56, 189, 248, 0.5);
+  transition: all 0.2s;
   overflow: visible;
+  z-index: 12;
+}
+
+.bus-door-interactive:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 24px rgba(250, 204, 21, 0.9), inset 0 0 12px rgba(56, 189, 248, 0.8);
+}
+
+.door-frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
 }
 
 .door-leaf {
   flex: 1;
   height: 100%;
-  background: #38bdf8;
-  border: 1px solid #0284c7;
-  transition: width 0.3s ease;
-}
-
-.door-glow-cue {
-  position: absolute;
-  top: -26px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ef4444;
-  color: #fff;
-  font-size: 0.65rem;
-  font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 8px;
-  white-space: nowrap;
-  animation: pulseGlow 1s infinite alternate;
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
-  pointer-events: none;
-}
-
-@keyframes pulseGlow {
-  0% { transform: translateX(-50%) scale(1); }
-  100% { transform: translateX(-50%) scale(1.1); box-shadow: 0 0 18px rgba(239, 68, 68, 0.9); }
+  background: linear-gradient(to right, #38bdf8 0%, #0284c7 100%);
+  border: 1px solid #0369a1;
+  transition: width 0.3s ease, opacity 0.2s;
 }
 
 .door-open .door-leaf {
   width: 0%;
-  opacity: 0.2;
+  opacity: 0.1;
+}
+
+.door-step-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: #fde047;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.door-open .door-step-light {
+  opacity: 1;
 }
 
 .bus-headlight {
   position: absolute;
   bottom: 14px;
   left: 4px;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background: #fef08a;
   border-radius: 50%;
-  box-shadow: -10px 0 16px #fef08a;
+  box-shadow: -10px 0 20px #fef08a;
 }
 
 .bus-wheel {
@@ -1285,7 +1458,6 @@ body {
   font-size: 1.8rem;
   line-height: 1;
 }
-
 .wheel-front { left: 40px; }
 .wheel-rear { right: 40px; }
 
@@ -1303,17 +1475,11 @@ body {
   100% { transform: translateX(16px) scale(1.3); opacity: 0; }
 }
 
-.boy-boarding {
-  transform: translate(75px, -15px) scale(0.6);
-  opacity: 0;
-}
-
-/* --- SCENE: CAT STYLES --- */
+/* ==================================================
+   SCENE 2: CAT (猫咪与毛线球)
+   ================================================== */
 .scene-cat {
-  background: linear-gradient(135deg, #fed7aa 0%, #ffedd5 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, #fed7aa 0%, #ffedd5 60%, #fdba74 100%);
 }
 
 .sc-room-wall {
@@ -1340,69 +1506,68 @@ body {
 }
 
 .sc-room-rug {
-  width: 180px;
-  height: 60px;
+  width: 200px;
+  height: 65px;
   background: #f472b6;
   border-radius: 50%;
   border: 3px dashed #db2777;
-  opacity: 0.5;
+  opacity: 0.55;
 }
 
-.sc-cat {
+.sc-cat-wrap {
   position: absolute;
-  bottom: 30%;
-  left: 90px;
-  font-size: 3.5rem;
+  bottom: 22%;
+  left: 75px;
   z-index: 5;
   transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1);
+}
+
+.cat-tail {
+  transform-origin: 26px 64px;
+  animation: catTailSway 2.5s ease-in-out infinite;
+}
+
+@keyframes catTailSway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(14deg); }
 }
 
 .cat-zzz {
   position: absolute;
   top: -15px;
-  right: -5px;
+  right: 5px;
   font-size: 1.2rem;
   animation: floatCloud 2s infinite;
 }
 
-.sc-yarn-ball {
+.sc-yarn-interactive {
   position: absolute;
-  bottom: 30%;
-  right: -80px;
-  font-size: 3rem;
-  z-index: 6;
+  bottom: 20%;
+  right: -90px;
   cursor: pointer;
+  z-index: 12;
   transition: transform 1s cubic-bezier(0.18, 0.89, 0.32, 1);
 }
 
-.sc-yarn-ball.yarn-rolled-in {
+.sc-yarn-interactive.yarn-rolled-in {
   transform: translateX(-160px);
 }
 
-.yarn-cue {
-  position: absolute;
-  top: -24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ec4899;
-  color: #fff;
-  font-size: 0.65rem;
-  font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 8px;
-  white-space: nowrap;
-  animation: pulseGlow 1s infinite alternate;
+.sc-yarn-interactive:hover {
+  transform: translateX(-160px) scale(1.1);
 }
 
 .cat-pouncing {
-  transform: translate(110px, -20px) rotate(15deg) scale(1.15);
+  transform: translate(100px, -15px) rotate(12deg) scale(1.15);
 }
 
 .yarn-caught {
   transform: translateX(-160px) rotate(360deg) scale(1.2);
 }
 
-/* --- SCENE: APPLE STYLES --- */
+/* ==================================================
+   SCENE 3: APPLE (果园采摘大苹果)
+   ================================================== */
 .scene-apple {
   background: linear-gradient(to bottom, #7dd3fc 0%, #bae6fd 60%, #86efac 100%);
 }
@@ -1436,8 +1601,8 @@ body {
 .tree-foliage {
   position: absolute;
   top: -85px;
-  width: 150px;
-  height: 120px;
+  width: 160px;
+  height: 125px;
   background: #16a34a;
   border-radius: 50%;
   box-shadow: 0 8px 16px rgba(0,0,0,0.25);
@@ -1446,39 +1611,31 @@ body {
   justify-content: center;
 }
 
-.hanging-apple {
+.ambient-apple {
   position: absolute;
-  font-size: 2.2rem;
+  font-size: 1.6rem;
+  opacity: 0.7;
+}
+.ambient-apple.aa-1 { top: 22px; left: 25px; }
+.ambient-apple.aa-2 { top: 60px; left: 60px; }
+
+.interactive-apple {
+  position: absolute;
+  top: 30px;
+  right: 25px;
   cursor: pointer;
+  z-index: 8;
   transition: transform 0.2s;
+  animation: appleWiggle 2.5s infinite ease-in-out;
 }
 
-.hanging-apple.apple-1 {
-  top: 35px;
-  right: 25px;
-  animation: appleWiggle 2s infinite ease-in-out;
+.interactive-apple:hover {
+  transform: scale(1.15);
 }
-.hanging-apple.apple-2 { top: 20px; left: 25px; }
-.hanging-apple.apple-3 { top: 60px; left: 55px; }
 
 @keyframes appleWiggle {
   0%, 100% { transform: rotate(0deg); }
   50% { transform: rotate(12deg); }
-}
-
-.apple-cue {
-  position: absolute;
-  top: -24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ef4444;
-  color: #fff;
-  font-size: 0.65rem;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 6px;
-  white-space: nowrap;
-  animation: pulseGlow 1s infinite alternate;
 }
 
 .apple-dropping {
@@ -1490,85 +1647,496 @@ body {
   100% { transform: translate(110px, 120px) scale(0.9); }
 }
 
-.sc-gatherer {
+.sc-hedgehog-gatherer {
   position: absolute;
-  bottom: 25px;
-  right: 120px;
-  font-size: 2.8rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  bottom: 20px;
+  right: 90px;
   z-index: 5;
+  transition: transform 0.3s;
 }
 
-/* --- SCENE: ROCKET STYLES --- */
+.gatherer-happy {
+  animation: hedgehogJump 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes hedgehogJump {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-16px) scale(1.1); }
+}
+
+/* ==================================================
+   SCENE 4: ROCKET (火箭点火升空)
+   ================================================== */
 .scene-rocket {
-  background: radial-gradient(circle at 50% 30%, #1e1b4b 0%, #030712 100%);
+  background: radial-gradient(circle at 50% 25%, #1e1b4b 0%, #030712 100%);
+}
+
+.sc-space-sky {
+  position: absolute;
+  top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.sc-stars {
+  font-size: 1.3rem;
+  letter-spacing: 12px;
+  opacity: 0.85;
+}
+
+.sc-moon {
+  font-size: 2rem;
+}
+
+.sc-launch-pad {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.gantry-tower {
+  width: 12px;
+  height: 100%;
+  background: repeating-linear-gradient(45deg, #475569 0 4px, #334155 4px 8px);
+  border: 1px solid #64748b;
 }
 
 .sc-space-rocket {
   position: absolute;
-  bottom: 35px;
+  bottom: 60px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 4rem;
   z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 1s ease-in;
+  transition: transform 1.1s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 
 .rocket-launching {
-  transform: translateX(-50%) translateY(-360px) scale(0.6);
+  transform: translateX(-50%) translateY(-380px) scale(0.5);
 }
 
-.btn-launch-red {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #dc2626;
-  color: #fff;
-  border: 2px solid #f87171;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-weight: 900;
-  font-size: 0.85rem;
-  cursor: pointer;
-  box-shadow: 0 0 16px rgba(220, 38, 38, 0.7);
-  animation: pulseGlow 1s infinite alternate;
-  z-index: 15;
-}
-
-/* Action Prompt Banner */
-.sc-prompt-box {
+.sc-launch-console {
   position: absolute;
   bottom: 10px;
   left: 50%;
-  transform: translateX(-50%) translateY(30px);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  background: rgba(15, 23, 42, 0.94);
-  border: 2px solid #facc15;
-  border-radius: 20px;
-  padding: 6px 16px;
+  transform: translateX(-50%);
+  z-index: 15;
+}
+
+.btn-launch-red {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);
   color: #fff;
-  font-size: 0.85rem;
+  border: 2px solid #f87171;
+  padding: 8px 24px;
+  border-radius: 24px;
+  font-weight: 900;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 4px 10px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.btn-launch-red:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px rgba(239, 68, 68, 1);
+}
+
+.launch-radar-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 28px;
+  border: 2px solid #ef4444;
+  animation: beaconRipple 1.2s infinite;
+  pointer-events: none;
+}
+
+/* ==================================================
+   SCENE 5: BOOK (魔法书翻开)
+   ================================================== */
+.scene-book {
+  background: linear-gradient(to bottom, #1e1b4b 0%, #0f172a 100%);
+}
+
+.magic-sparkles {
+  position: absolute;
+  top: 15px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.4rem;
+  letter-spacing: 12px;
+}
+
+.sc-magic-desk {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 38%;
+  background: linear-gradient(to bottom, #78350f, #451a03);
+  border-top: 4px solid #b45309;
+}
+
+.sc-magic-book-interactive {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 100px;
+  cursor: pointer;
+  z-index: 8;
+  perspective: 600px;
+}
+
+.grimoire-3d {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.book-cover-leaf {
+  width: 100%;
+  height: 100%;
+  background: #7f1d1d;
+  border: 2px solid #facc15;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.cover-gold-border {
+  border: 1px dashed #facc15;
+  padding: 8px;
+  text-align: center;
+  color: #fde047;
+}
+
+.cover-title {
+  font-size: 0.55rem;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.book-opened {
+  transform: rotateY(-130deg);
+  opacity: 0.2;
+}
+
+.book-inside {
+  position: absolute;
+  inset: 0;
+  background: #fef08a;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  z-index: 25;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-  white-space: nowrap;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s 0.2s;
+  z-index: -1;
 }
 
-.sc-prompt-box.visible {
+.pages-revealed {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
+}
+
+.inside-magic-castle {
+  font-size: 2.2rem;
+  animation: castleRise 0.6s ease-out forwards;
+}
+
+@keyframes castleRise {
+  0% { transform: scale(0.4) translateY(20px); opacity: 0; }
+  100% { transform: scale(1.1) translateY(-10px); opacity: 1; }
+}
+
+.inside-aurora {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #7c2d12;
+}
+
+/* ==================================================
+   SCENE 6: RAIN (下雨与绽放)
+   ================================================== */
+.scene-rain {
+  background: linear-gradient(to bottom, #64748b 0%, #94a3b8 50%, #475569 100%);
+}
+
+.rain-cloud-interactive {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 10;
+  font-size: 3rem;
+  transition: transform 0.2s;
+}
+
+.rain-cloud-interactive:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.rain-streaks-container {
+  position: absolute;
+  top: 80px;
+  left: 20%;
+  right: 20%;
+  height: 90px;
+  display: flex;
+  justify-content: space-around;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rain-streaks-container.raining {
+  opacity: 1;
+  animation: rainShower 0.4s linear infinite;
+}
+
+@keyframes rainShower {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(30px); }
+}
+
+.sc-rain-ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 35%;
+  background: #15803d;
+  border-top: 3px solid #166534;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thirsty-flowers {
+  display: flex;
+  gap: 28px;
+  font-size: 2.4rem;
+}
+
+.bloomed {
+  animation: flowerPop 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes flowerPop {
+  0% { transform: scale(0.5); }
+  100% { transform: scale(1.2); }
+}
+
+.rainbow-arc {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 3.5rem;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all 0.5s ease-out;
+}
+
+.rainbow-shining {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ==================================================
+   SCENE 7: ABANDON (弃船避险)
+   ================================================== */
+.scene-abandon {
+  background: linear-gradient(to bottom, #1e293b 0%, #0f172a 100%);
+}
+
+.sc-storm-sky {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.sc-storm-sea {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 45%;
+  background: #0369a1;
+  overflow: hidden;
+}
+
+.sea-wave {
+  position: absolute;
+  font-size: 2.5rem;
+  animation: waveRoll 2s infinite ease-in-out;
+}
+.sea-wave.w1 { left: 10%; bottom: 20px; }
+.sea-wave.w2 { right: 15%; bottom: 10px; animation-delay: 1s; }
+
+@keyframes waveRoll {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(4deg); }
+}
+
+.sc-storm-ship {
+  position: absolute;
+  bottom: 40px;
+  left: 60px;
+  font-size: 3.5rem;
+  animation: shipTilt 2.5s infinite ease-in-out;
+}
+
+@keyframes shipTilt {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.lifeboat-interactive {
+  position: absolute;
+  bottom: 45px;
+  right: 80px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 3rem;
+  transition: all 0.8s ease-out;
+}
+
+.lifeboat-interactive:hover {
+  transform: scale(1.1);
+}
+
+.boat-escaped {
+  transform: translateX(180px) scale(0.8);
+}
+
+/* ==================================================
+   SCENE 8: ACCOMPLISH (胜利登顶)
+   ================================================== */
+.scene-accomplish {
+  background: linear-gradient(to bottom, #38bdf8 0%, #bae6fd 60%, #e0f2fe 100%);
+}
+
+.sc-mountain-sky {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+  font-size: 1.8rem;
+}
+
+.sc-snow-peak {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 6rem;
+  line-height: 0.8;
+}
+
+.sc-climber {
+  position: absolute;
+  bottom: 50px;
+  left: 120px;
+  font-size: 2.8rem;
+}
+
+.climber-celebrate {
+  animation: climberJump 0.5s infinite alternate;
+}
+
+@keyframes climberJump {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-12px); }
+}
+
+.summit-flag-interactive {
+  position: absolute;
+  bottom: 75px;
+  right: 140px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 3.2rem;
+}
+
+.summit-flag-interactive:hover {
+  transform: scale(1.15);
+}
+
+.flag-planted {
+  animation: flagWave 0.8s infinite alternate;
+}
+
+@keyframes flagWave {
+  0% { transform: rotate(0deg) scale(1); }
+  100% { transform: rotate(8deg) scale(1.1); }
+}
+
+/* ==================================================
+   GENERIC SCENARIO (全词库通用奇妙探险工坊)
+   ================================================== */
+.scene-generic {
+  background: radial-gradient(circle at 50% 30%, #312e81 0%, #0f172a 100%);
+}
+
+.generic-stars {
+  position: absolute;
+  top: 15px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.4rem;
+  letter-spacing: 12px;
+}
+
+.sc-generic-pedestal {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.generic-mascot {
+  font-size: 3.5rem;
+}
+
+.generic-chest-interactive {
+  font-size: 3.8rem;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.generic-chest-interactive:hover {
+  transform: scale(1.12);
+}
+
+.chest-opened {
+  animation: chestBurst 0.6s ease-out forwards;
+}
+
+@keyframes chestBurst {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3) rotate(5deg); }
+  100% { transform: scale(1.15) rotate(0deg); }
 }
 
 /* Morphing Word Card Overlay */

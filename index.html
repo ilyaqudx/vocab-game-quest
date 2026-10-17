@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="1l2_RiYCAmp7s6J2NHcgw_LJhvbjY_CoSzl1ZSu_Lws" />
+  <title>Vocab Quest - 8000 Core Vocabulary, CET-4/6, IELTS & TOEFL Game | 趣味英语单词大作战</title>
+  <meta name="description" content="趣味英语单词大作战（Vocab Quest）是一款告别死记硬背的互动背单词游戏。涵盖8000核心词汇、大学英语四级（CET-4）、六级（CET-6）、雅思（IELTS）及托福（TOEFL）学术词汇。融合太空打字防御、极速连连看、语境侦探完形填空与艾宾浩斯智能错题本，真人真人原声发音，完全免费免安装。">
+  <meta name="keywords" content="背单词游戏, 英语单词游戏, 8000常用单词, 四级英语词汇, 六级英语词汇, 雅思词汇游戏, 托福核心词汇, 英语打字游戏, 单词连连看, vocab game, english vocabulary game, cet4 words, cet6 words, ielts words, toefl words">
+  <link rel="canonical" href="https://vocab-game-quest.vercel.app/">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Vocab Quest - 趣味英语单词大作战 | 8000词/四六级/雅思托福">
+  <meta property="og:description" content="边玩边记！太空射击打字、配对消消乐、真题语境侦探，真人标准美音发音，彻底攻克英语词汇大关！">
+  <meta property="og:url" content="https://vocab-game-quest.vercel.app/">
+  <meta property="og:image" content="https://vocab-game-quest.vercel.app/og-image.png">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="Vocab Quest">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vocab Quest - 趣味英语单词大作战">
+  <meta name="twitter:description" content="多感官游戏化背单词平台，涵盖8000常用词汇、四级、六级、雅思、托福考试词汇。">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://vocab-game-quest.vercel.app/#app",
+        "name": "Vocab Quest (趣味英语单词大作战)",
+        "url": "https://vocab-game-quest.vercel.app/",
+        "applicationCategory": "EducationalApplication",
+        "genre": "Vocabulary Learning Game",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires modern HTML5 & Web Audio / Speech Synthesis support",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "An interactive, gamified English vocabulary training platform covering 8000 core words, CET-4, CET-6, IELTS, and TOEFL exams with arcade shooting, speed matching, context cloze inference, and native speech audio."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://vocab-game-quest.vercel.app/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "为什么游戏化背单词比传统单词卡更有效？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "传统单词卡缺乏即时反馈，容易产生大脑认知疲惫。Vocab Quest 将打字击发（太空防御）、语义速配（连连看）与学术真题语境完形（语境侦探）相结合，调动视觉、听觉（真人发音）与触觉肌肉记忆，形成深层神经突触连接。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "词库包含哪些等级的考试要求？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "网站涵盖日常生活8000高频基础词汇、大学英语四级（CET-4 大纲核心词）、大学英语六级（CET-6 进阶词汇）、雅思学术类（IELTS Academic）及托福学科专项（TOEFL Subject Words）。所有模式均支持一键切换词库分类。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "发音与音标是如何实现的？需要联网加载吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "所有发音均调用浏览器原生的 Web Speech API 高清人声合成引擎，支持纯离线零延迟毫秒级朗读，且无需消耗任何后台流量或等待音频文件缓冲。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "背错的单词会被记录吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "会的！在任何模式中拼写失误、配对超时或选错答案的单词，均会被系统自动收入【错题本】。错题本整合了词根词缀助记信息，支持针对性巩固复习，熟练掌握后可一键移出。"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://vocab-game-quest.vercel.app/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "首页 (Home)",
+            "item": "https://vocab-game-quest.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "单词大作战 (Vocab Quest)",
+            "item": "https://vocab-game-quest.vercel.app/#game"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <span class="brand-icon">⚔️</span>
+          <div>
+            <h1 class="brand-title">Vocab Quest</h1>
+          </div>
+          <span class="brand-badge">8000+ Words</span>
+        </div>
+        <div class="header-actions">
+          <div id="user-level-pill" class="user-level-pill" title="当前等级与段位">
+            <span id="user-level-badge">🌱</span>
+            <span id="user-level-title">Lv.1 初窥门径</span>
+          </div>
+          <button id="btn-sound" class="icon-btn" title="声音开关 (Mute/Unmute)">
+            <span id="sound-icon">🔊</span>
+          </button>
+          <button id="btn-help" class="icon-btn" title="玩法说明 (Help)">❓</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Game Area -->
+    <main class="main-content">
+      <!-- Control Bar: Modes and Categories -->
+      <section class="nav-controls-box">
+        <!-- Game Modes Tabs -->
+        <nav class="mode-tabs" aria-label="Game Modes">
+          <button class="mode-tab-btn active" data-mode="defender">
+            <span>🚀</span> 太空防御 (Defender)
+          </button>
+          <button class="mode-tab-btn" data-mode="blitz">
+            <span>⚡</span> 极速配对 (Match Blitz)
+          </button>
+          <button class="mode-tab-btn" data-mode="detective">
+            <span>🕵️</span> 语境侦探 (Detective)
+          </button>
+          <button class="mode-tab-btn" data-mode="notebook">
+            <span>📓</span> 错题本 (Notebook)
+          </button>
+        </nav>
+
+        <!-- Vocabulary Category Filters -->
+        <div class="category-row" aria-label="Vocabulary Category Filters">
+          <button class="cat-pill active" data-cat="all">🌟 综合词库 (All Core)</button>
+          <button class="cat-pill" data-cat="cet4">📘 英语四级 (CET-4)</button>
+          <button class="cat-pill" data-cat="cet6">📙 英语六级 (CET-6)</button>
+          <button class="cat-pill" data-cat="ielts">🎓 雅思学术 (IELTS)</button>
+          <button class="cat-pill" data-cat="toefl">🏛️ 托福高分 (TOEFL)</button>
+        </div>
+      </section>
+
+      <!-- MODE 1: Space Defender -->
+      <section id="view-defender" class="game-view" aria-label="Space Defender Mode">
+        <div class="defender-stats-bar">
+          <div class="stat-chip">
+            <span class="lbl">得分 (Score)</span>
+            <span id="defender-score" class="val">0</span>
+          </div>
+          <div class="stat-chip">
+            <span class="lbl">连击 (Combo)</span>
+            <span id="defender-combo" class="val">-</span>
+          </div>
+          <div class="stat-chip">
+            <span class="lbl">母舰护盾 (Shields)</span>
+            <span id="defender-shields" class="val">🛡️🛡️🛡️</span>
+          </div>
+        </div>
+
+        <div class="canvas-frame">
+          <canvas id="space-canvas"></canvas>
+        </div>
+
+        <div class="space-input-bar">
+          <input 
+            type="text" 
+            id="space-input" 
+            class="space-input" 
+            placeholder="⌨️ 键盘键入或输入打字..." 
+            autocomplete="off" 
+            autocorrect="off" 
+            autocapitalize="off" 
+            spellcheck="false" 
+          />
+          <button id="btn-start-defender" class="btn-primary">🚀 开始防卫战 (Start)</button>
+        </div>
+      </section>
+
+      <!-- MODE 2: Match Blitz -->
+      <section id="view-blitz" class="game-view" hidden aria-label="Match Blitz Mode">
+        <div class="blitz-header-bar">
+          <div class="stat-chip">
+            <span class="lbl">得分 (Score)</span>
+            <span id="blitz-score" class="val">0</span>
+          </div>
+          <div id="blitz-timer" class="blitz-timer-pill">60s</div>
+          <div class="stat-chip">
+            <span class="lbl">连击 (Combo)</span>
+            <span id="blitz-combo" class="val">-</span>
+          </div>
+        </div>
+
+        <div id="blitz-grid" class="blitz-grid"></div>
+
+        <button id="btn-start-blitz" class="btn-primary" style="margin-top: 14px;">
+          ⚡ 开始极速消消乐 (Start Blitz)
+        </button>
+      </section>
+
+      <!-- MODE 3: Context Detective -->
+      <section id="view-detective" class="game-view" hidden aria-label="Context Detective Mode">
+        <div class="detective-card">
+          <div class="detective-meta-row">
+            <div class="stat-chip">
+              <span class="lbl">侦探积分 (Score)</span>
+              <span id="detective-score" class="val">0</span>
+            </div>
+            <div class="stat-chip">
+              <span class="lbl">连续推理 (Streak)</span>
+              <span id="detective-streak" class="val">0</span>
+            </div>
+          </div>
+
+          <div id="detective-sentence" class="cloze-sentence-box">
+            Loading academic cloze sentence...
+          </div>
+
+          <div class="detective-hint-row">
+            <span id="detective-hint-pos" style="font-weight:700; color:#38bdf8;">[v.]</span>
+            <span id="detective-hint-trans" style="color:#e2e8f0;">中文语义提示</span>
+          </div>
+
+          <div id="detective-options" class="options-grid"></div>
+
+          <div id="detective-explain-box" class="detective-explain-box" hidden></div>
+
+          <button id="btn-next-question" class="btn-next-question" hidden>
+            下一题推理 ➔ (Next Question)
+          </button>
+        </div>
+      </section>
+
+      <!-- MODE 4: Mistakes Notebook -->
+      <section id="view-notebook" class="game-view" hidden aria-label="Mistakes Notebook Mode">
+        <div class="notebook-container">
+          <div class="notebook-header">
+            <div>
+              <h2 style="font-size:1.15rem; font-weight:800; color:#fff;">📓 智能错题强化本</h2>
+              <p style="font-size:0.8rem; color:#94a3b8;">自动收录拼写错误与判断混淆词汇，巩固记忆弱点</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span id="notebook-count" style="background:rgba(56,189,248,0.18); color:#38bdf8; font-weight:700; padding:4px 10px; border-radius:12px; font-size:0.85rem;">0 词</span>
+              <button id="btn-clear-notebook" class="icon-btn" title="清空错题本">🗑️</button>
+            </div>
+          </div>
+
+          <div id="notebook-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+        </div>
+      </section>
+
+      <!-- Educational & SEO Guide -->
+      <article class="seo-section">
+        <div class="seo-card">
+          <h1>科学背单词与多维游戏化记忆指南</h1>
+          <p>
+            在英语学习过程中，词汇量（Vocabulary Breadth & Depth）是决定阅读理解流畅度、听力辨音敏锐度以及考试写作精准度的基石。无论是冲击大学英语四级（CET-4 425+）、六级（CET-6 500+），还是攻克雅思（IELTS 7.0+）、托福（TOEFL 100+），孤立机械地刷传统生词表或闪卡，极易陷入<b>“前记后忘、缺乏语境、无法输出”</b>的艾宾浩斯遗忘陷阱。
+          </p>
+
+          <h2>🎯 为什么游戏化背单词效果倍增？</h2>
+          <ul>
+            <li><b>即时正反馈（Dopamine Loop）：</b> 太空防御战中打碎陨石的爆裂声与视觉光效，让每一次字母敲击都产生强烈的掌控感，将枯燥的机械默写转化为紧张刺激的街机防卫战。</li>
+            <li><b>多感官共振（Multimodal Encoding）：</b> 结合原生 Web Speech API 纯正美音真人发音、音标对照与汉英快速映射，同时调动听觉皮层、视觉识别与手指打字肌肉记忆。</li>
+            <li><b>真实考试真题语境（Contextual Retrieval）：</b> 语境侦探模式摘录权威学术真题句型，通过完形填空锻炼考生根据词性搭配（Collocation）和上下文逻辑推导单词的能力。</li>
+          </ul>
+
+          <h2>🌱 核心词汇记忆进阶策略：词根词缀助记法</h2>
+          <p>
+            英语词汇中超过 70% 的学术词汇均由拉丁语和希腊语词根构词。掌握常见的核心前缀（如 <code>con-</code>/<code>com-</code> 表共同、<code>sub-</code> 表在…下、<code>contra-</code> 表相反）与词根（如 <code>tract</code> 拉引、<code>spect</code> 观看、<code>vert/vers</code> 转动），便能实现<b>“以一当十”</b>的词汇量裂变扩展。
+          </p>
+
+          <h2>📚 考试词汇量梯度要求总览</h2>
+          <ul>
+            <li><b>日常高频 8,000 核心词：</b> 涵盖英美日常对话、主流新闻外刊（如 The Economist, BBC, NYT）95% 以上的文本覆盖率，扫清日常流利表达障碍。</li>
+            <li><b>大学英语四级（CET-4，约 4,500 词）：</b> 重点考查基础语法形态转化、高频动词短语及基础学术说明文理解。</li>
+            <li><b>大学英语六级（CET-6，约 6,000 词）：</b> 强化考查熟词生义、抽象思辨词汇、长难句结构与同义替换能力。</li>
+            <li><b>雅思（IELTS Academic，约 7,000–8,000 词）：</b> 侧重大学学术讲座、科学实验报告、图表分析及学术论述的高级书面语表达。</li>
+            <li><b>托福（TOEFL iBT，约 8,000–10,000 词）：</b> 涵盖地质学、天文学、人类学、生物进化等北美大学跨学科高阶专业术语。</li>
+          </ul>
+
+          <h2>❓ 常见问题答疑 (FAQ)</h2>
+          <div class="faq-list">
+            <details>
+              <summary>怎么在手机或平板触屏设备上玩太空防御战？</summary>
+              <p>在手机或平板上进入游戏后，点击下方的输入框即可唤起软键盘，输入对应的首字母或完整单词即可自动锁定并开火射击！</p>
+            </details>
+            <details>
+              <summary>练习数据和等级会丢失吗？</summary>
+              <p>不会。用户的等级、累积经验值（XP）、连续打卡天数以及智能错题本全部安全存储于浏览器的本地持久化数据库（LocalStorage）中，刷新页面或下次访问均会自动恢复。</p>
+            </details>
+            <details>
+              <summary>如何将错题本里的单词彻底消化？</summary>
+              <p>建议每日完成常规挑战后，打开“错题本”模式。点击单词卡片朗读发音，结合展示的“词根拆解”记忆。当你能够在心中瞬间默念出含义时，点击勾选按钮将其移出，并奖励 15 点进阶经验值！</p>
+            </details>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <!-- Help Modal -->
+    <div id="modal-help" class="modal-overlay" hidden>
+      <div class="modal-card">
+        <div style="font-size: 2.2rem; margin-bottom: 8px;">🎮</div>
+        <h2 class="modal-title">四大模式玩法指南</h2>
+        <div style="text-align: left; font-size: 0.9rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 20px;">
+          <p><b>1. 🚀 太空防御战：</b><br>陨石携带着英文单词缓缓下坠。在键盘上连续敲出目标单词的每一个字母，激光炮塔将瞬间将其击碎并朗读发音！连续击碎可触发倍数连击加分。</p>
+          <p style="margin-top: 8px;"><b>2. ⚡ 极速配对（连连看）：</b><br>60秒倒计时！从打乱的卡片中找出成对的英文单词与其对应的中文释义，快速配对消消乐，挑战手速与记忆极限。</p>
+          <p style="margin-top: 8px;"><b>3. 🕵️ 语境侦探（完形推理）：</b><br>沉浸式学术真题例句，根据上下文逻辑及词性提示，选出最契合语境的核心单词。附带精辟词根助记解析！</p>
+          <p style="margin-top: 8px;"><b>4. 📓 艾宾浩斯错题本：</b><br>答错或超时的生词将自动沉淀在错题本中，方便温故知新，查漏补缺。</p>
+        </div>
+        <button class="btn-primary modal-close" style="width: 100%;">我知道了，开始挑战！</button>
+      </div>
+    </div>
+
+    <!-- Matrix Footer Linking Casual Games -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <h3 class="matrix-title">🎮 免费益智游戏与学习工具矩阵</h3>
+        <nav class="matrix-grid" aria-label="Game Matrix">
+          <a href="https://vocab-game-quest.vercel.app/" class="matrix-link current" aria-current="page">
+            <span>⚔️</span> Vocab Quest
+          </a>
+          <a href="https://wordle-unlimited-olive.vercel.app/" class="matrix-link">
+            <span>🟩</span> Wordle Unlimited
+          </a>
+          <a href="https://waffle-game-unlimited.vercel.app/" class="matrix-link">
+            <span>🧇</span> Waffle Unlimited
+          </a>
+          <a href="https://seo-game-website.vercel.app/" class="matrix-link">
+            <span>🔷</span> Hextris Unblocked
+          </a>
+          <a href="https://falling-sand-game-one.vercel.app/" class="matrix-link">
+            <span>⏳</span> Falling Sand Game
+          </a>
+          <a href="https://hex-2048-nu.vercel.app/" class="matrix-link">
+            <span>🔢</span> 2048 Hexagonal
+          </a>
+          <a href="https://bloxorz-unblocked.vercel.app/" class="matrix-link">
+            <span>🧊</span> Bloxorz Unblocked
+          </a>
+          <a href="https://minesweeper-unlimited.vercel.app/" class="matrix-link">
+            <span>💣</span> Minesweeper Unlimited
+          </a>
+          <a href="https://snake-game-classic-chi.vercel.app/" class="matrix-link">
+            <span>🐍</span> Snake Game Classic
+          </a>
+          <a href="https://flappy-bird-unblocked-topaz.vercel.app/" class="matrix-link">
+            <span>🐤</span> Flappy Bird Unblocked
+          </a>
+          <a href="https://doodle-jump-unblocked.vercel.app/" class="matrix-link">
+            <span>🦘</span> Doodle Jump Unblocked
+          </a>
+        </nav>
+        <p class="footer-copy">© 2026 Vocab Quest & Game Matrix. Pure Client-Side Zero-Latency HTML5 Web App.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

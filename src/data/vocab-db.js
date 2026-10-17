@@ -16,19 +16,19 @@ export const VOCAB_DATABASE = [
     phonetic: "/bʌs/",
     pos: "n.",
     trans: "公共汽车；公交车",
-    example: "The yellow school bus stops to let the students get on.",
-    transEx: "黄色的校车停下来让学生们上车。",
+    example: "The green bus takes the student to school.",
+    transEx: "绿色的公交车送小朋友去上学。",
     roots: "缩写自拉丁语 omnibus (意为'为了所有人') -> 大家的公共汽车",
     synonyms: ["COACH", "VEHICLE", "TRANSIT"],
     category: "all",
     scenario: {
       type: "bus",
       title: "🚏 站台等公交车",
-      intro: "早晨阳光明媚，小明背着小书包站在公交站台等车去上学...",
-      climax: "嘀嘀！远处一辆黄色双层大公交车减速开进站台啦！",
-      actionPrompt: "👆 快点击车门，帮小明刷卡上车！",
-      afterAction: "小明踏上台阶上车坐稳，公交车关门启动开往学校！",
-      voiceNarrative: "公交车来啦！坐公交车去上学！BUS，公交车！"
+      intro: "早晨阳光明媚，小朋友背着书包站在公交站台等车去上学...",
+      climax: "绿色的公交车稳稳靠站停下，车门就在眼前！",
+      actionPrompt: "👆 快点击发光的车门，让小朋友上车！",
+      afterAction: "小朋友走上公交车，开心地向窗外挥手，出发去上学啦！",
+      voiceNarrative: "公交车进站啦！BUS，公交车！"
     }
   },
   {

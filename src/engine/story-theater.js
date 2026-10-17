@@ -74,261 +74,176 @@ export class StoryTheater {
   // ==========================================
   // SCENE 1: BUS (站台等公交车)
   // ==========================================
+  // ==========================================
+  // SCENE 1: BUS (真实 3D 动画视频与情境交互指引)
+  // ==========================================
   buildBusScene(stage, scenario, onComplete) {
     stage.innerHTML = `
-      <!-- Sky & Clouds -->
-      <div class="sc-sky">
-        <div class="sc-sun"></div>
-        <div class="sc-cloud cloud-1">☁️</div>
-        <div class="sc-cloud cloud-2">☁️</div>
-      </div>
-      <!-- City Skyline Background -->
-      <div class="sc-cityline"></div>
-      <!-- Sidewalk & Road -->
-      <div class="sc-sidewalk"></div>
-      <div class="sc-road">
-        <div class="sc-road-dashes"></div>
-      </div>
-      <!-- Bus Stop Sign Post -->
-      <div class="sc-bus-stop-sign">
-        <div class="sign-board">🚏 BUS STOP</div>
-        <div class="sign-pole"></div>
-      </div>
+      <div class="video-cinema-wrap" id="bus-cinema-wrap">
+        <!-- 3D Animation Video Player -->
+        <video 
+          id="bus-video-player" 
+          class="cinema-video" 
+          src="/media/bus.mp4" 
+          playsinline 
+          webkit-playsinline 
+          preload="auto">
+          <source src="/media/bus.mp4" type="video/mp4">
+          <source src="/bus.mp4" type="video/mp4">
+        </video>
 
-      <!-- School Boy (Complete Vector Character: head, hair, eyes, uniform, backpack, legs, shoes) -->
-      <div class="sc-character boy" id="scene-boy">
-        <div class="char-bubble" id="char-speech">等车去上学...</div>
-        <div class="boy-svg-wrap">
-          <svg class="boy-svg" viewBox="0 0 90 125" width="70" height="98">
-            <defs>
-              <radialGradient id="boySkinGrad" cx="40%" cy="40%" r="60%">
-                <stop offset="0%" stop-color="#ffedd5"/>
-                <stop offset="100%" stop-color="#fed7aa"/>
-              </radialGradient>
-              <linearGradient id="boySuitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#3b82f6"/>
-                <stop offset="100%" stop-color="#1d4ed8"/>
-              </linearGradient>
-              <linearGradient id="boyBagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fb923c"/>
-                <stop offset="100%" stop-color="#ea580c"/>
-              </linearGradient>
-            </defs>
-
-            <!-- Shadow on sidewalk -->
-            <ellipse cx="45" cy="120" rx="24" ry="5" fill="rgba(0,0,0,0.3)"/>
-
-            <!-- Backpack (Worn naturally on the boy's back) -->
-            <g class="boy-backpack-group">
-              <rect x="8" y="44" width="22" height="38" rx="8" fill="url(#boyBagGrad)" stroke="#c2410c" stroke-width="2"/>
-              <rect x="11" y="52" width="16" height="20" rx="4" fill="#f97316"/>
-              <circle cx="19" cy="76" r="3" fill="#fde047"/>
-              <circle cx="8" cy="62" r="3" fill="#38bdf8"/>
-            </g>
-
-            <!-- Left Arm -->
-            <g class="boy-arm-left" id="boy-arm-l">
-              <rect x="18" y="46" width="8" height="28" rx="4" fill="#2563eb" transform="rotate(10 22 46)"/>
-              <circle cx="21" cy="75" r="5" fill="url(#boySkinGrad)"/>
-            </g>
-
-            <!-- Legs & Shoes (Separated into left and right limbs for walking animation) -->
-            <g class="boy-leg-left" id="boy-leg-l">
-              <rect x="29" y="78" width="12" height="15" rx="3" fill="#1e293b"/>
-              <rect x="31" y="90" width="8" height="20" rx="3" fill="url(#boySkinGrad)"/>
-              <rect x="30" y="104" width="10" height="7" rx="2" fill="#f8fafc"/>
-              <ellipse cx="34" cy="113" rx="9" ry="5" fill="#ef4444"/>
-              <path d="M 27 113 Q 34 118 43 113" stroke="#ffffff" stroke-width="2" fill="none"/>
-            </g>
-
-            <g class="boy-leg-right" id="boy-leg-r">
-              <rect x="49" y="78" width="12" height="15" rx="3" fill="#1e293b"/>
-              <rect x="51" y="90" width="8" height="20" rx="3" fill="url(#boySkinGrad)"/>
-              <rect x="50" y="104" width="10" height="7" rx="2" fill="#f8fafc"/>
-              <ellipse cx="56" cy="113" rx="9" ry="5" fill="#ef4444"/>
-              <path d="M 49 113 Q 56 118 65 113" stroke="#ffffff" stroke-width="2" fill="none"/>
-            </g>
-
-            <!-- Torso / Jacket with backpack straps -->
-            <g class="boy-torso">
-              <rect x="25" y="42" width="40" height="40" rx="9" fill="url(#boySuitGrad)" stroke="#1e40af" stroke-width="1.5"/>
-              <polygon points="45,49 37,42 53,42" fill="#ffffff"/>
-              <polygon points="45,48 41,58 45,62 49,58" fill="#dc2626"/>
-              <circle cx="45" cy="50" r="2.5" fill="#991b1b"/>
-              <!-- Shoulder straps -->
-              <line x1="31" y1="44" x2="33" y2="76" stroke="#c2410c" stroke-width="3.5" stroke-linecap="round"/>
-              <line x1="57" y1="44" x2="55" y2="76" stroke="#c2410c" stroke-width="3.5" stroke-linecap="round"/>
-            </g>
-
-            <!-- Right Arm -->
-            <g class="boy-arm-right" id="boy-arm-r">
-              <rect x="63" y="45" width="8" height="28" rx="4" fill="#2563eb" transform="rotate(-15 67 45)"/>
-              <circle cx="73" cy="73" r="5" fill="url(#boySkinGrad)"/>
-            </g>
-
-            <!-- Head & Cute Face -->
-            <g class="boy-head">
-              <rect x="40" y="34" width="10" height="10" fill="url(#boySkinGrad)"/>
-              <circle cx="45" cy="24" r="19" fill="url(#boySkinGrad)"/>
-              <circle cx="33" cy="27" r="4" fill="#f43f5e" opacity="0.45"/>
-              <circle cx="57" cy="27" r="4" fill="#f43f5e" opacity="0.45"/>
-              <!-- Anime Eyes -->
-              <ellipse cx="37" cy="22" rx="3.5" ry="4.5" fill="#0f172a"/>
-              <circle cx="38" cy="20" r="1.5" fill="#ffffff"/>
-              <ellipse cx="53" cy="22" rx="3.5" ry="4.5" fill="#0f172a"/>
-              <circle cx="54" cy="20" r="1.5" fill="#ffffff"/>
-              <path d="M 33 16 Q 37 14 41 16" stroke="#78350f" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-              <path d="M 49 16 Q 53 14 57 16" stroke="#78350f" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-              <!-- Smile -->
-              <path d="M 40 30 Q 45 36 50 30" stroke="#b91c1c" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-              <!-- Hair -->
-              <path d="M 25 21 C 25 8 36 3 45 3 C 54 3 65 8 65 21 C 65 14 60 9 53 9 C 48 9 45 13 41 11 C 36 9 31 11 28 15 Z" fill="#78350f"/>
-              <path d="M 27 19 Q 34 22 39 16 Q 44 22 51 17 Q 58 22 63 19" fill="#78350f"/>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Yellow Bus -->
-      <div class="sc-bus" id="scene-bus">
-        <div class="bus-body">
-          <div class="bus-roof-curve"></div>
-          <div class="bus-windows">
-            <div class="bus-window driver-window" id="bus-driver">
-              <span class="driver-sprite">👨‍✈️</span>
-            </div>
-            <div class="bus-window passenger-window" id="bus-window-1">🪟</div>
-            <div class="bus-window passenger-window" id="bus-front-window">🪟</div>
+        <!-- Interactive Hotspot overlaid directly on the bus front door (appears at t ≈ 4.5s) -->
+        <div class="video-interactive-hotspot" id="bus-door-hotspot" style="display: none;" title="点击车门上车！">
+          <div class="hotspot-ripple-ring"></div>
+          <div class="hotspot-click-target">
+            <span class="hotspot-pulse-dot"></span>
           </div>
-          <div class="bus-stripe">
-            <span class="bus-label-text">★ SCHOOL BUS ★</span>
+          <div class="hotspot-floating-cue">
+            <span class="cue-pulse-radar"></span>
+            <span class="cue-txt">🚌 点击车门上车！</span>
+            <span class="cue-bounce-arrow">👇</span>
           </div>
-
-          <!-- PROMINENT HIGH-VISIBILITY INTERACTIVE BUS DOOR -->
-          <div class="bus-door-interactive" id="scene-bus-door" title="点击车门上车！">
-            <div class="door-beacon-ring" id="bus-door-beacon"></div>
-            <div class="door-frame">
-              <div class="door-leaf left"></div>
-              <div class="door-leaf right"></div>
-            </div>
-            <div class="door-step-light"></div>
-            <div class="door-floating-cue" id="bus-door-cue">
-              <span class="cue-pulse-radar"></span>
-              <span class="cue-txt">🚌 点击车门上车！</span>
-              <span class="cue-bounce-arrow">👇</span>
-            </div>
-          </div>
-
-          <div class="bus-headlight">
-            <div class="light-beam"></div>
-          </div>
-          <div class="bus-bumper"></div>
         </div>
-        <div class="bus-wheel wheel-front">
-          <div class="wheel-tire"></div>
-          <div class="wheel-hub">⚙️</div>
-        </div>
-        <div class="bus-wheel wheel-rear">
-          <div class="wheel-tire"></div>
-          <div class="wheel-hub">⚙️</div>
-        </div>
-        <div class="bus-exhaust" id="bus-exhaust">💨</div>
-      </div>
 
-      <!-- Top Action Prompt Banner (ANCHORED AT TOP TO PREVENT BLOCKING BUTTONS) -->
-      <div class="sc-prompt-box" id="sc-prompt">
-        <span class="prompt-icon">💡</span>
-        <span class="prompt-text"><b>公交车进站啦！</b> 点击发光的车门，送小明上车！</span>
+        <!-- Initial Play Overlay in case browser policies block autoplay -->
+        <div class="video-play-overlay" id="video-start-overlay" style="display: none;">
+          <button class="btn-start-video">
+            <span class="play-triangle">▶</span>
+            <span>点击观看公交车情境微剧场</span>
+          </button>
+        </div>
+
+        <!-- Top Guidance HUD (Always Non-blocking) -->
+        <div class="sc-prompt-box visible" id="sc-prompt">
+          <span class="prompt-icon">💡</span>
+          <span class="prompt-text" id="prompt-hud-text"><b>公交车进站啦！</b> 小朋友在站台等车...</span>
+        </div>
       </div>
     `;
 
-    const bus = stage.querySelector('#scene-bus');
-    const door = stage.querySelector('#scene-bus-door');
-    const doorCue = stage.querySelector('#bus-door-cue');
-    const doorBeacon = stage.querySelector('#bus-door-beacon');
-    const boy = stage.querySelector('#scene-boy');
-    const speech = stage.querySelector('#char-speech');
+    const video = stage.querySelector('#bus-video-player');
+    const hotspot = stage.querySelector('#bus-door-hotspot');
+    const startOverlay = stage.querySelector('#video-start-overlay');
     const prompt = stage.querySelector('#sc-prompt');
-    const frontWindow = stage.querySelector('#bus-front-window');
+    const promptText = stage.querySelector('#prompt-hud-text');
 
-    // Phase 1: Bus arrives smoothly with horn
-    setTimeout(() => {
-      audio.playHonk();
-      bus?.classList?.add('bus-arrived');
-      if (speech) speech.textContent = '公交车来啦！🚌';
-    }, 300);
+    let hasPausedForInteraction = false;
+    let interactionCompleted = false;
 
-    // Top prompt appears cleanly
-    setTimeout(() => {
-      prompt?.classList?.add('visible');
-    }, 1100);
-
-    // Phase 2: User clicks door -> Complete 6-phase choreography:
-    // 1. Click door -> 2. Boy walks to bus -> 3. Door opens -> 4. Boy climbs up onto bus -> 5. Door closes -> 6. Bus drives away
-    const handleBoarding = () => {
-      if (this.hasInteracted) return;
-      this.hasInteracted = true;
-
-      // 1. Hide interactive prompts and cues
-      prompt?.classList?.remove('visible');
-      doorCue?.classList?.add('cue-hidden');
-      if (doorBeacon) doorBeacon.style.display = 'none';
-      if (speech) speech.textContent = '等我上车~ 🎒';
-
-      // 2. Phase 1: Boy starts walking to the bus door (1.4s animated walking cycle)
-      boy?.classList?.add('boy-walking-to-bus');
-
-      // Play soft rhythmic footstep sounds during the walk
-      setTimeout(() => audio.playSnap(), 300);
-      setTimeout(() => audio.playSnap(), 750);
-      setTimeout(() => audio.playSnap(), 1200);
-
-      // 3. Phase 2: Boy reaches the bus door (at 1.4s) -> Bus door folds open!
-      setTimeout(() => {
-        boy?.classList?.remove('boy-walking-to-bus');
-        boy?.classList?.add('boy-at-door');
-        if (speech) speech.textContent = '车门开啦！✨';
-
-        // Open the bus door!
-        door?.classList?.add('door-open');
-        audio.playSnap();
-
-        // 4. Phase 3: Boy climbs up the bus stairs (at 2.0s)
-        setTimeout(() => {
-          if (speech) speech.textContent = '走上公交车...';
-          boy?.classList?.add('boy-climbing-bus');
-
-          // Boy enters cabin and appears waving at the front window (at 2.6s)
-          setTimeout(() => {
-            if (boy) boy.style.display = 'none';
-            if (frontWindow) {
-              frontWindow.innerHTML = '<span class="window-boy-waving">👦👋</span>';
-            }
-            audio.playBoing();
-
-            // 5. Phase 4: Door closes firmly! (at 3.2s)
-            setTimeout(() => {
-              door?.classList?.remove('door-open');
-              audio.playSnap();
-
-              // 6. Phase 5: Bus honks horn, exhaust puffs, and drives away! (at 3.7s)
-              setTimeout(() => {
-                audio.playHonk();
-                bus?.classList?.add('bus-depart');
-
-                // 7. Phase 6: Reveal golden word morph card once bus is gone (at 4.7s)
-                setTimeout(() => {
-                  if (onComplete) onComplete();
-                }, 1000);
-              }, 500);
-            }, 600);
-          }, 600);
-        }, 600);
-      }, 1400);
+    // Start video playback
+    const startPlay = () => {
+      if (startOverlay) startOverlay.style.display = 'none';
+      if (video && typeof video.play === 'function') {
+        try {
+          const playPromise = video.play();
+          if (playPromise !== undefined && typeof playPromise.catch === 'function') {
+            playPromise.catch(err => {
+              console.warn('Autoplay with audio was restricted by browser, showing play trigger:', err);
+              if (startOverlay) startOverlay.style.display = 'flex';
+            });
+          }
+        } catch (e) {
+          console.warn('Error initiating video play:', e);
+          if (startOverlay) startOverlay.style.display = 'flex';
+        }
+      }
     };
 
-    door?.addEventListener('click', handleBoarding);
-    bus?.addEventListener('click', handleBoarding);
+    if (startOverlay) {
+      startOverlay.addEventListener('click', () => {
+        if (video) video.muted = false;
+        startPlay();
+      });
+    }
+
+    // Trigger video playback
+    setTimeout(startPlay, 100);
+
+    // Monitor playback timeline for intelligent interactive guidance
+    if (video && typeof video.addEventListener === 'function') {
+      video.addEventListener('timeupdate', () => {
+        const t = video.currentTime || 0;
+
+        // Phase 1 (0s - 4.5s): Bus approaches and pulls in
+        if (t < 4.4) {
+          if (promptText && !hasPausedForInteraction) {
+            promptText.innerHTML = '<b>公交车进站啦！</b> 绿色的公交车开过来啦...';
+          }
+        }
+
+        // Phase 2 (at ~4.5s): Bus stops in front of student -> PAUSE and request user interaction!
+        if (!hasPausedForInteraction && t >= 4.5 && t < 7.0) {
+          hasPausedForInteraction = true;
+          if (typeof video.pause === 'function') {
+            video.pause();
+          }
+
+          // Show prominent door hotspot at left: 68%, top: 52%
+          if (hotspot) hotspot.style.display = 'block';
+          if (promptText) {
+            promptText.innerHTML = '<b>车停好啦！</b> 👉 快点击黄色发光车门，让小朋友上车！';
+          }
+          audio.playBoing();
+        }
+
+        // Phase 3 (after 8.2s): Student inside waving, bus drives away
+        if (t >= 8.2) {
+          if (promptText) {
+            promptText.innerHTML = '<b>小朋友坐好啦！</b> 挥手告别，公交车出发去上学！';
+          }
+        }
+      });
+    }
+
+    // Handle user clicking the door hotspot (or video) to board
+    const handleDoorClick = (e) => {
+      if (e) e.stopPropagation();
+      if (interactionCompleted || !hasPausedForInteraction) return;
+      interactionCompleted = true;
+
+      // Hide hotspot with satisfying audio feedback
+      if (hotspot) hotspot.style.display = 'none';
+      audio.playSnap();
+
+      if (promptText) {
+        promptText.innerHTML = '<b>车门打开了！</b> 小朋友快步上车~ 🎒';
+      }
+
+      // Resume video playback!
+      if (video && typeof video.play === 'function') {
+        try {
+          video.play();
+        } catch (e) {}
+      }
+    };
+
+    hotspot?.addEventListener('click', handleDoorClick);
+    video?.addEventListener('click', () => {
+      if (hasPausedForInteraction && !interactionCompleted) {
+        handleDoorClick();
+      }
+    });
+
+    // On video end: finish scene and trigger word morph
+    if (video && typeof video.addEventListener === 'function') {
+      video.addEventListener('ended', () => {
+        if (prompt) prompt.classList.remove('visible');
+        setTimeout(() => {
+          if (onComplete) onComplete();
+        }, 500);
+      });
+
+      // Fallback: If video error occurs, gracefully proceed to next step
+      video.addEventListener('error', (e) => {
+        console.warn('Video failed to load:', e);
+        if (promptText) {
+          promptText.innerHTML = '<b>公交车已到达！</b> 点击进入下一步学习！';
+        }
+        setTimeout(() => {
+          if (onComplete) onComplete();
+        }, 1500);
+      });
+    }
   }
 
   // ==========================================

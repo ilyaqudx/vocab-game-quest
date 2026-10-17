@@ -44,14 +44,14 @@ class AudioManager {
   }
 
   // --- Pronunciation via Web Speech API ---
-  speak(word) {
+  speak(word, rate = 0.92) {
     if (this.muted) return;
     if (!('speechSynthesis' in window)) return;
 
     window.speechSynthesis.cancel(); // Cancel any ongoing speech
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = this.voiceLang;
-    utterance.rate = 0.92; // Slightly measured for clear learning
+    utterance.rate = rate;
     utterance.pitch = 1.0;
     if (this.selectedVoice) {
       utterance.voice = this.selectedVoice;
@@ -59,7 +59,130 @@ class AudioManager {
     window.speechSynthesis.speak(utterance);
   }
 
+  speakSlow(word) {
+    this.speak(word, 0.62);
+  }
+
+  speakPhonics(sound) {
+    this.speak(sound, 0.75);
+  }
+
   // --- Web Audio SFX ---
+  playSnap() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(800, t);
+    osc.frequency.exponentialRampToValueAtTime(120, t + 0.06);
+
+    gain.gain.setValueAtTime(0.3, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.06);
+  }
+
+  playBoing() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(180, t);
+    osc.frequency.exponentialRampToValueAtTime(540, t + 0.18);
+
+    gain.gain.setValueAtTime(0.25, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.2);
+  }
+
+  playYum() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    [320, 480].forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const st = t + idx * 0.1;
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, st);
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.7, st + 0.09);
+
+      gain.gain.setValueAtTime(0.25, st);
+      gain.gain.exponentialRampToValueAtTime(0.001, st + 0.09);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(st);
+      osc.stop(st + 0.09);
+    });
+  }
+
+  playStamp() {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(110, t);
+    osc.frequency.exponentialRampToValueAtTime(35, t + 0.35);
+
+    gain.gain.setValueAtTime(0.5, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.35);
+  }
+
+  playStarChime(starIdx = 0) {
+    if (this.muted) return;
+    this.initAudio();
+    if (!this.ctx) return;
+
+    const freqs = [587.33, 739.99, 880.00]; // D5, F#5, A5
+    const freq = freqs[starIdx % freqs.length] || 880;
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, t);
+    osc.frequency.exponentialRampToValueAtTime(freq * 1.1, t + 0.25);
+
+    gain.gain.setValueAtTime(0.3, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.25);
+  }
+
   playLaser() {
     if (this.muted) return;
     this.initAudio();

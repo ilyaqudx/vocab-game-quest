@@ -124,6 +124,7 @@
             <span id="user-level-badge">🌱</span>
             <span id="user-level-title">Lv.1 初窥门径</span>
           </div>
+          <button id="btn-album" class="icon-btn" title="洪恩图鉴馆 (Mastered Album)">🏆</button>
           <button id="btn-sound" class="icon-btn" title="声音开关 (Mute/Unmute)">
             <span id="sound-icon">🔊</span>
           </button>
@@ -138,7 +139,10 @@
       <section class="nav-controls-box">
         <!-- Game Modes Tabs -->
         <nav class="mode-tabs" aria-label="Game Modes">
-          <button class="mode-tab-btn active" data-mode="defender">
+          <button class="mode-tab-btn active" data-mode="hongen" style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); color: #fff; border-color: #f59e0b;">
+            <span>🎪</span> 洪恩趣味识词 (HongEn)
+          </button>
+          <button class="mode-tab-btn" data-mode="defender">
             <span>🚀</span> 太空防御 (Defender)
           </button>
           <button class="mode-tab-btn" data-mode="blitz">
@@ -162,8 +166,145 @@
         </div>
       </section>
 
+      <!-- FLAGSHIP MODE: HongEn 4-Step Studio -->
+      <section id="view-hongen" class="game-view" aria-label="HongEn Studio Mode">
+        <div class="hongen-wrapper">
+          <!-- Stepper Navigation -->
+          <div class="hongen-stepper" aria-label="HongEn 4-Step Progress">
+            <button class="hongen-step-item active" data-step="1">
+              <span class="step-num">1</span>
+              <span>玩·具象探索</span>
+            </button>
+            <button class="hongen-step-item" data-step="2">
+              <span class="step-num">2</span>
+              <span>读·音节跟读</span>
+            </button>
+            <button class="hongen-step-item" data-step="3">
+              <span class="step-num">3</span>
+              <span>拼·果冻积木</span>
+            </button>
+            <button class="hongen-step-item" data-step="4">
+              <span class="step-num">4</span>
+              <span>测·萌宠喂食</span>
+            </button>
+          </div>
+
+          <!-- Step 1: 玩 · 场景发现与具象演变 -->
+          <div id="hongen-stage-1" class="hongen-stage-card">
+            <div id="hongen-scene-box" class="hongen-scene-box" title="点击物体触发魔法演变！">
+              <span id="scene-icon" class="scene-interactive-icon">✨</span>
+              <span id="scene-title-badge" class="scene-title-badge">奇幻工坊</span>
+            </div>
+            <div id="hongen-morph-display" class="hongen-morph-display" hidden>
+              <div id="hongen-word-title" class="hongen-word-title">WORD</div>
+              <div id="hongen-phonetic" class="hongen-phonetic-badge">/phonetic/</div>
+              <div id="hongen-trans" class="hongen-trans-pill">中文含义</div>
+              <p id="hongen-example" style="font-size:0.9rem; color:#cbd5e1; margin-top:8px; max-width:440px;"></p>
+            </div>
+            <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+              <button id="btn-hongen-morph" class="btn-primary" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+                🪄 探索互动演变 (Morph)
+              </button>
+              <button id="btn-goto-step-2" class="btn-primary" hidden>
+                第二步：大声读 ➔
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: 读 · 自然拼读拆解与语音跟读 -->
+          <div id="hongen-stage-2" class="hongen-stage-card" hidden>
+            <div id="read-word-display" class="read-big-word">WORD</div>
+            <div id="read-phonetic-display" class="hongen-phonetic-badge">/phonetic/</div>
+
+            <!-- Syllable breakdown chips -->
+            <div class="syllables-wrap" id="syllables-container"></div>
+
+            <div class="pronounce-speed-row">
+              <button id="btn-speak-slow" class="btn-speed-toggle" title="慢速音节拼读">
+                <span>🐢</span> 慢速拼读 (0.6x)
+              </button>
+              <button id="btn-speak-normal" class="btn-speed-toggle" title="正常标准美音">
+                <span>🐰</span> 正常语速 (1.0x)
+              </button>
+            </div>
+
+            <div class="mic-action-box">
+              <button id="btn-mic-record" class="btn-mic-record" title="点击大声跟读">
+                <span>🎤</span>
+              </button>
+              <div id="mic-status-text" style="font-size:0.92rem; font-weight:700; color:#e2e8f0;">
+                点击麦克风，大声朗读这个单词！
+              </div>
+              <div class="star-rating-box" id="star-rating-box">
+                <span class="star-item">⭐</span>
+                <span class="star-item">⭐</span>
+                <span class="star-item">⭐</span>
+              </div>
+            </div>
+
+            <button id="btn-goto-step-3" class="btn-primary" style="margin-top: 20px;" hidden>
+              第三步：魔法字母积木 ➔
+            </button>
+          </div>
+
+          <!-- Step 3: 拼 · 果冻字母磁吸积木 -->
+          <div id="hongen-stage-3" class="hongen-stage-card" hidden>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 4px;">
+              🧩 魔法果冻字母积木
+            </div>
+            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+              点击或拖动下方散落的彩色字母块，拼入上方对应槽位！
+            </p>
+
+            <!-- Slots row -->
+            <div id="puzzle-slots-container" class="puzzle-slots-row"></div>
+
+            <!-- Draggable / Clickable Jelly tiles -->
+            <div id="puzzle-tiles-container" class="puzzle-tiles-row"></div>
+
+            <div id="puzzle-complete-banner" style="display:none; flex-direction:column; align-items:center; gap:8px;">
+              <span style="font-size:1.15rem; font-weight:800; color:#10b981;">🎉 拼装完成！发音真棒！</span>
+              <button id="btn-goto-step-4" class="btn-primary">
+                第四步：萌宠闯关 ➔
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: 测 · 萌宠喂食闯关与金章认证 -->
+          <div id="hongen-stage-4" class="hongen-stage-card" hidden>
+            <div class="pet-stage">
+              <div id="pet-bubble" class="pet-speech-bubble">
+                好饿呀～快把代表【释义】的魔法果实喂给我！
+              </div>
+              <div id="pet-avatar" class="pet-avatar">🐻</div>
+
+              <div id="pet-food-grid" class="pet-food-grid"></div>
+            </div>
+
+            <!-- Golden Mastered Stamp Overlay (Shown on win) -->
+            <div id="stamp-overlay" class="hongen-stamp-overlay" hidden>
+              <div class="hongen-stamp">
+                👑 洪恩金章 · 融会贯通<br>
+                <span style="font-size:1.1rem; color:#fff; display:block; margin-top:6px;">MASTERED!</span>
+              </div>
+              <p style="color:#f1f5f9; font-size:1rem; font-weight:700; margin-bottom:16px;">
+                恭喜获得 +50 经验值与图鉴卡片！
+              </p>
+              <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+                <button id="btn-hongen-next-word" class="btn-primary" style="background:linear-gradient(135deg, #10b981, #059669);">
+                  🌟 学下一个单词 (Next)
+                </button>
+                <button id="btn-view-album" class="btn-primary" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3);">
+                  📖 查看已学图鉴
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- MODE 1: Space Defender -->
-      <section id="view-defender" class="game-view" aria-label="Space Defender Mode">
+      <section id="view-defender" class="game-view" hidden aria-label="Space Defender Mode">
         <div class="defender-stats-bar">
           <div class="stat-chip">
             <span class="lbl">得分 (Score)</span>
@@ -322,14 +463,31 @@
     <div id="modal-help" class="modal-overlay" hidden>
       <div class="modal-card">
         <div style="font-size: 2.2rem; margin-bottom: 8px;">🎮</div>
-        <h2 class="modal-title">四大模式玩法指南</h2>
+        <h2 class="modal-title">五大趣味模式玩法指南</h2>
         <div style="text-align: left; font-size: 0.9rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 20px;">
-          <p><b>1. 🚀 太空防御战：</b><br>陨石携带着英文单词缓缓下坠。在键盘上连续敲出目标单词的每一个字母，激光炮塔将瞬间将其击碎并朗读发音！连续击碎可触发倍数连击加分。</p>
+          <p><b>0. 🎪 洪恩四步研学（玩·读·拼·测）：</b><br>从【场景探索】具象演变，到【音节拆读与麦克风语音跟读】，再到【魔法果冻字母积木拼装】，最后进行【萌宠喂食闯关】，通过闭环获得金色认证印章！</p>
+          <p style="margin-top: 8px;"><b>1. 🚀 太空防御战：</b><br>陨石携带着英文单词缓缓下坠。在键盘上连续敲出目标单词的每一个字母，激光炮塔将瞬间将其击碎并朗读发音！连续击碎可触发倍数连击加分。</p>
           <p style="margin-top: 8px;"><b>2. ⚡ 极速配对（连连看）：</b><br>60秒倒计时！从打乱的卡片中找出成对的英文单词与其对应的中文释义，快速配对消消乐，挑战手速与记忆极限。</p>
           <p style="margin-top: 8px;"><b>3. 🕵️ 语境侦探（完形推理）：</b><br>沉浸式学术真题例句，根据上下文逻辑及词性提示，选出最契合语境的核心单词。附带精辟词根助记解析！</p>
           <p style="margin-top: 8px;"><b>4. 📓 艾宾浩斯错题本：</b><br>答错或超时的生词将自动沉淀在错题本中，方便温故知新，查漏补缺。</p>
         </div>
         <button class="btn-primary modal-close" style="width: 100%;">我知道了，开始挑战！</button>
+      </div>
+    </div>
+
+    <!-- Word Sticker Album Modal -->
+    <div id="modal-hongen-album" class="modal-overlay" hidden>
+      <div class="modal-card" style="max-width: 520px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <h2 style="font-size:1.25rem; font-weight:800; color:#fff; display:flex; align-items:center; gap:8px;">
+            <span>🏆</span> 洪恩已掌握图鉴馆
+          </h2>
+          <span id="album-count-badge" style="background:rgba(250,204,21,0.2); color:#facc15; font-weight:800; padding:3px 10px; border-radius:12px; font-size:0.8rem;">0 词</span>
+        </div>
+        <div id="album-grid" class="album-grid">
+          <!-- Album cards rendered here -->
+        </div>
+        <button class="btn-primary modal-close" style="width:100%; margin-top:16px;">返回研学</button>
       </div>
     </div>
 

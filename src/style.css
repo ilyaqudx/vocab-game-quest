@@ -1292,15 +1292,107 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
-.boy-boarding-walk {
-  animation: boyWalkToBus 0.55s ease-in-out forwards;
+/* Interactive Cue Hidden State */
+.cue-hidden {
+  opacity: 0 !important;
+  transform: translateX(-50%) translateY(10px) !important;
+  pointer-events: none !important;
+  transition: all 0.25s ease !important;
+}
+
+/* 1. Boy Walking Cycle towards Bus Door */
+.boy-walking-to-bus {
+  animation: boyWalkToBus 1.4s linear forwards !important;
 }
 
 @keyframes boyWalkToBus {
-  0% { transform: translate(0, 0) scale(1); opacity: 1; }
-  40% { transform: translate(45px, -10px) scale(0.9) rotate(4deg); opacity: 0.9; }
-  80% { transform: translate(85px, -15px) scale(0.7) rotate(0deg); opacity: 0.7; }
-  100% { transform: translate(110px, -20px) scale(0.5); opacity: 0; }
+  0% { transform: translateX(0) translateY(0); }
+  14% { transform: translateX(20px) translateY(-4px); }
+  28% { transform: translateX(42px) translateY(0); }
+  42% { transform: translateX(64px) translateY(-4px); }
+  56% { transform: translateX(86px) translateY(0); }
+  70% { transform: translateX(108px) translateY(-4px); }
+  84% { transform: translateX(130px) translateY(0); }
+  100% { transform: translateX(148px) translateY(0); }
+}
+
+.boy-walking-to-bus #boy-leg-l {
+  animation: boyLegSwingL 0.28s ease-in-out infinite alternate;
+  transform-origin: 35px 78px;
+}
+
+.boy-walking-to-bus #boy-leg-r {
+  animation: boyLegSwingR 0.28s ease-in-out infinite alternate;
+  transform-origin: 55px 78px;
+}
+
+@keyframes boyLegSwingL {
+  0% { transform: rotate(24deg); }
+  100% { transform: rotate(-24deg); }
+}
+
+@keyframes boyLegSwingR {
+  0% { transform: rotate(-24deg); }
+  100% { transform: rotate(24deg); }
+}
+
+.boy-walking-to-bus #boy-arm-l {
+  animation: boyArmSwingL 0.28s ease-in-out infinite alternate;
+  transform-origin: 22px 46px;
+}
+
+.boy-walking-to-bus #boy-arm-r {
+  animation: boyArmSwingR 0.28s ease-in-out infinite alternate;
+  transform-origin: 67px 45px;
+}
+
+@keyframes boyArmSwingL {
+  0% { transform: rotate(-28deg); }
+  100% { transform: rotate(28deg); }
+}
+
+@keyframes boyArmSwingR {
+  0% { transform: rotate(28deg); }
+  100% { transform: rotate(-28deg); }
+}
+
+/* 2. Boy At Door Standing */
+.boy-at-door {
+  transform: translateX(148px) translateY(0) !important;
+  animation: none !important;
+}
+
+/* 3. Boy Climbing Bus Steps */
+.boy-climbing-bus {
+  animation: boyClimbSteps 0.6s ease-in forwards !important;
+}
+
+@keyframes boyClimbSteps {
+  0% { transform: translateX(148px) translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateX(158px) translateY(-10px) scale(0.9); opacity: 0.85; }
+  100% { transform: translateX(166px) translateY(-18px) scale(0.75); opacity: 0; }
+}
+
+/* 4. Waving Boy in Bus Window */
+.window-boy-waving {
+  display: inline-block;
+  font-size: 1.15rem;
+  animation: boyWindowWave 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes boyWindowWave {
+  0% { transform: rotate(-8deg) scale(1); }
+  100% { transform: rotate(10deg) scale(1.12); }
+}
+
+/* Rapid wheel rotation during bus departure */
+.sc-bus.bus-depart .wheel-hub {
+  animation: wheelSpinSpeed 0.2s linear infinite;
+}
+
+@keyframes wheelSpinSpeed {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Yellow School Bus */

@@ -127,25 +127,24 @@ export class StoryTheater {
             </g>
 
             <!-- Left Arm -->
-            <g class="boy-arm-left">
+            <g class="boy-arm-left" id="boy-arm-l">
               <rect x="18" y="46" width="8" height="28" rx="4" fill="#2563eb" transform="rotate(10 22 46)"/>
               <circle cx="21" cy="75" r="5" fill="url(#boySkinGrad)"/>
             </g>
 
-            <!-- Legs & Shoes -->
-            <g class="boy-legs">
-              <!-- Shorts -->
+            <!-- Legs & Shoes (Separated into left and right limbs for walking animation) -->
+            <g class="boy-leg-left" id="boy-leg-l">
               <rect x="29" y="78" width="12" height="15" rx="3" fill="#1e293b"/>
-              <rect x="49" y="78" width="12" height="15" rx="3" fill="#1e293b"/>
-              <!-- Legs -->
               <rect x="31" y="90" width="8" height="20" rx="3" fill="url(#boySkinGrad)"/>
-              <rect x="51" y="90" width="8" height="20" rx="3" fill="url(#boySkinGrad)"/>
-              <!-- Socks -->
               <rect x="30" y="104" width="10" height="7" rx="2" fill="#f8fafc"/>
-              <rect x="50" y="104" width="10" height="7" rx="2" fill="#f8fafc"/>
-              <!-- Sneakers -->
               <ellipse cx="34" cy="113" rx="9" ry="5" fill="#ef4444"/>
               <path d="M 27 113 Q 34 118 43 113" stroke="#ffffff" stroke-width="2" fill="none"/>
+            </g>
+
+            <g class="boy-leg-right" id="boy-leg-r">
+              <rect x="49" y="78" width="12" height="15" rx="3" fill="#1e293b"/>
+              <rect x="51" y="90" width="8" height="20" rx="3" fill="url(#boySkinGrad)"/>
+              <rect x="50" y="104" width="10" height="7" rx="2" fill="#f8fafc"/>
               <ellipse cx="56" cy="113" rx="9" ry="5" fill="#ef4444"/>
               <path d="M 49 113 Q 56 118 65 113" stroke="#ffffff" stroke-width="2" fill="none"/>
             </g>
@@ -162,7 +161,7 @@ export class StoryTheater {
             </g>
 
             <!-- Right Arm -->
-            <g class="boy-arm-right">
+            <g class="boy-arm-right" id="boy-arm-r">
               <rect x="63" y="45" width="8" height="28" rx="4" fill="#2563eb" transform="rotate(-15 67 45)"/>
               <circle cx="73" cy="73" r="5" fill="url(#boySkinGrad)"/>
             </g>
@@ -207,13 +206,13 @@ export class StoryTheater {
 
           <!-- PROMINENT HIGH-VISIBILITY INTERACTIVE BUS DOOR -->
           <div class="bus-door-interactive" id="scene-bus-door" title="点击车门上车！">
-            <div class="door-beacon-ring"></div>
+            <div class="door-beacon-ring" id="bus-door-beacon"></div>
             <div class="door-frame">
               <div class="door-leaf left"></div>
               <div class="door-leaf right"></div>
             </div>
             <div class="door-step-light"></div>
-            <div class="door-floating-cue">
+            <div class="door-floating-cue" id="bus-door-cue">
               <span class="cue-pulse-radar"></span>
               <span class="cue-txt">🚌 点击车门上车！</span>
               <span class="cue-bounce-arrow">👇</span>
@@ -245,6 +244,8 @@ export class StoryTheater {
 
     const bus = stage.querySelector('#scene-bus');
     const door = stage.querySelector('#scene-bus-door');
+    const doorCue = stage.querySelector('#bus-door-cue');
+    const doorBeacon = stage.querySelector('#bus-door-beacon');
     const boy = stage.querySelector('#scene-boy');
     const speech = stage.querySelector('#char-speech');
     const prompt = stage.querySelector('#sc-prompt');
@@ -262,30 +263,68 @@ export class StoryTheater {
       prompt?.classList?.add('visible');
     }, 1100);
 
-    // Phase 2: User clicks door
+    // Phase 2: User clicks door -> Complete 6-phase choreography:
+    // 1. Click door -> 2. Boy walks to bus -> 3. Door opens -> 4. Boy climbs up onto bus -> 5. Door closes -> 6. Bus drives away
     const handleBoarding = () => {
       if (this.hasInteracted) return;
       this.hasInteracted = true;
 
+      // 1. Hide interactive prompts and cues
       prompt?.classList?.remove('visible');
-      door?.classList?.add('door-open');
-      audio.playSnap();
+      doorCue?.classList?.add('cue-hidden');
+      if (doorBeacon) doorBeacon.style.display = 'none';
+      if (speech) speech.textContent = '等我上车~ 🎒';
 
-      // Boy walks into bus
-      boy?.classList?.add('boy-boarding-walk');
+      // 2. Phase 1: Boy starts walking to the bus door (1.4s animated walking cycle)
+      boy?.classList?.add('boy-walking-to-bus');
 
+      // Play soft rhythmic footstep sounds during the walk
+      setTimeout(() => audio.playSnap(), 300);
+      setTimeout(() => audio.playSnap(), 750);
+      setTimeout(() => audio.playSnap(), 1200);
+
+      // 3. Phase 2: Boy reaches the bus door (at 1.4s) -> Bus door folds open!
       setTimeout(() => {
-        if (boy) boy.style.display = 'none';
-        if (frontWindow) frontWindow.textContent = '👦👋'; // Smiles and waves from window
-        door?.classList?.remove('door-open');
-        audio.playHonk();
+        boy?.classList?.remove('boy-walking-to-bus');
+        boy?.classList?.add('boy-at-door');
+        if (speech) speech.textContent = '车门开啦！✨';
 
-        // Bus zooms off towards school!
+        // Open the bus door!
+        door?.classList?.add('door-open');
+        audio.playSnap();
+
+        // 4. Phase 3: Boy climbs up the bus stairs (at 2.0s)
         setTimeout(() => {
-          bus?.classList?.add('bus-depart');
-          if (onComplete) onComplete();
-        }, 650);
-      }, 550);
+          if (speech) speech.textContent = '走上公交车...';
+          boy?.classList?.add('boy-climbing-bus');
+
+          // Boy enters cabin and appears waving at the front window (at 2.6s)
+          setTimeout(() => {
+            if (boy) boy.style.display = 'none';
+            if (frontWindow) {
+              frontWindow.innerHTML = '<span class="window-boy-waving">👦👋</span>';
+            }
+            audio.playBoing();
+
+            // 5. Phase 4: Door closes firmly! (at 3.2s)
+            setTimeout(() => {
+              door?.classList?.remove('door-open');
+              audio.playSnap();
+
+              // 6. Phase 5: Bus honks horn, exhaust puffs, and drives away! (at 3.7s)
+              setTimeout(() => {
+                audio.playHonk();
+                bus?.classList?.add('bus-depart');
+
+                // 7. Phase 6: Reveal golden word morph card once bus is gone (at 4.7s)
+                setTimeout(() => {
+                  if (onComplete) onComplete();
+                }, 1000);
+              }, 500);
+            }, 600);
+          }, 600);
+        }, 600);
+      }, 1400);
     };
 
     door?.addEventListener('click', handleBoarding);
